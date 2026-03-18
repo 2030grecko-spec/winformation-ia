@@ -3,154 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Terminal de Mando</title>
+    <title>Winformation IA - Centro de Control</title>
     <style>
-        body { 
-            background-color: #000; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Courier New', monospace; 
-            color: #3fb950; 
-            display: flex; 
-            flex-direction: column; 
-            height: 100vh; 
-            overflow: hidden; 
-        }
-        
-        /* ZONA GIGANTE DE LA IMAGEN DE FUEGO (ARRIBA) */
-        .orb-command-zone { 
-            width: 100%; 
-            height: 65%; /* Ocupa la mayor parte para que Camila y el fuego luzcan */
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            background: radial-gradient(circle, #1a1a1a 0%, #000 70%); 
-            position: relative; 
-            border-bottom: 2px solid #238636; 
-        }
-        
-        /* Contenedor para que la imagen no se corte */
-        .image-frame {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        /* USAMOS LA IMAGEN DE image_17.png */
-        .image-frame img { 
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; /* Mantiene la proporción sin cortar */
-            box-shadow: 0 0 50px rgba(63, 185, 80, 0.4); /* Resplandor de energía */
-        }
-
-        /* --- CONSOLA DE MANDO (ABAJO) --- */
-        .control-panel { 
-            flex: 1; /* Ocupa el resto de la pantalla */
-            background: #0d1117; /* Fondo oscuro pero no negro absoluto */
-            padding: 15px; 
-            display: flex; 
-            flex-direction: column; 
-            border-top: 1px solid #30363d;
-        }
-
-        .brand { 
-            font-size: 18px; 
-            text-align: center; 
-            margin-bottom: 10px; 
-            color: #3fb950; 
-            text-shadow: 0 0 5px #238636; 
-            font-weight: bold;
-        }
-
-        /* PANTALLA DE SALIDA (LETRAS AZULES) */
-        .console-output { 
-            background: #000; 
-            border: 1px solid #238636; 
-            border-radius: 5px; 
-            padding: 10px; 
-            flex-grow: 1; 
-            font-size: 12px; 
-            overflow-y: auto; 
-            margin-bottom: 10px; 
-            box-shadow: inset 0 0 15px #238636;
-            color: #58a6ff; /* <-- AQUÍ ESTÁN TUS LETRAS AZULES */
-        }
-        
-        /* --- AQUÍ ES DONDE ESCRIBES PARA MANDAR A LA NUBE --- */
-        /* RECUADRO VERDE ELÉCTRICO */
-        .input-area { 
-            display: flex; 
-            gap: 5px; 
-            background: #161b22; 
-            padding: 5px; 
-            border-radius: 5px; 
-            border: 2px solid #3fb950; /* <-- AQUÍ ESTÁ TU VERDE ELÉCTRICO */
-            box-shadow: 0 0 10px #3fb950; /* Brillo para el verde eléctrico */
-        }
-
-        input { 
-            background: transparent; 
-            border: none; 
-            color: #fff; /* Texto que escribes es blanco para legibilidad */
-            flex: 1; 
-            padding: 10px; 
-            font-family: inherit; 
-            outline: none; 
-            font-size: 14px;
-        }
-
-        button { 
-            background: #238636; 
-            border: none; 
-            color: white; 
-            padding: 10px 15px; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            font-weight: bold; 
-        }
-        
+        body { background-color: #000; margin: 0; padding: 0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        .impact-zone { width: 100%; height: 60%; display: flex; justify-content: center; align-items: center; border-bottom: 3px solid #3fb950; background: #000; }
+        .impact-zone img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .control-panel { flex: 1; background: #161b22; padding: 15px; display: flex; flex-direction: column; }
+        .console-screen { background: #000; border: 1px solid #3fb950; border-radius: 8px; padding: 10px; flex-grow: 1; font-size: 14px; color: #58a6ff; overflow-y: auto; margin-bottom: 15px; box-shadow: inset 0 0 15px rgba(63, 185, 80, 0.2); }
+        .input-box { display: flex; gap: 10px; background: #0d1117; padding: 5px 10px; border: 2px solid #3fb950; border-radius: 12px; box-shadow: 0 0 15px #3fb950; }
+        input { background: transparent; border: none; color: #fff; flex: 1; padding: 12px; font-family: inherit; outline: none; font-size: 16px; }
+        button { background: #3fb950; border: none; color: #000; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
-
-    <div class="orb-command-zone">
-        <div class="image-frame">
-            <img src="Camila.jpg" alt="Camila Fuego AI">
-        </div>
+    <div class="impact-zone">
+        <img src="CamilaDelfuturo.jpg" alt="Camila del Futuro">
     </div>
-
     <div class="control-panel">
-        <div class="brand">WINFORMATION IA - SISTEMA M y F</div>
-        
-        <div class="console-output" id="output">
-            <div>> SISTEMA INICIADO...</div>
-            <div>> IMAGEN DE POTENCIA CARGADA...</div>
-            <div>> ESPERANDO COMANDOS DE J.G.L.M...</div>
-            <div>> MANDANDO INFORMACIÓN A LA NUBE...</div>
+        <div class="console-screen" id="log">
+            <div style="color: #3fb950;">> SISTEMA WINFORMATION ACTIVO...</div>
         </div>
-
-        <div class="input-area">
-            <input type="text" id="userInput" placeholder="Escribe tu orden para la nube...">
-            <button onclick="sendCommand()">ENVIAR</button>
+        <div class="input-box">
+            <input type="text" id="command" placeholder="Mandar datos a la nube...">
+            <button onclick="send()">ENVIAR</button>
         </div>
     </div>
-
     <script>
-        function sendCommand() {
-            const input = document.getElementById('userInput');
-            const output = document.getElementById('output');
-            if(input.value.trim() !== "") {
-                output.innerHTML += `<div style="color: #fff;">> TÚ: ${input.value}</div>`;
-                output.innerHTML += `<div>> CAMILA: Procesando datos y mandando a la nube...</div>`;
-                input.value = "";
-                output.scrollTop = output.scrollHeight;
+        function send() {
+            const cmd = document.getElementById('command');
+            const log = document.getElementById('log');
+            if(cmd.value.trim() !== "") {
+                log.innerHTML += `<div style="color:#58a6ff">> DATOS NUBE: ${cmd.value}</div>`;
+                cmd.value = "";
+                log.scrollTop = log.scrollHeight;
             }
         }
     </script>
-
 </body>
 </html>
