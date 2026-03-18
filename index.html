@@ -5,21 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Winformation IA - Panel de Control</title>
     <style>
-        body { background-color: #0d1117; color: #58a6ff; font-family: sans-serif; text-align: center; padding: 20px; }
-        .panel { border: 2px solid #238636; border-radius: 15px; padding: 20px; background: #161b22; max-width: 400px; margin: auto; }
-        img { width: 150px; height: 150px; border-radius: 50%; border: 3px solid #238636; margin-bottom: 15px; }
-        h1 { color: #238636; font-size: 24px; }
+        body { 
+            background-color: #0d1117; 
+            color: #58a6ff; 
+            font-family: sans-serif; 
+            text-align: center; 
+            padding: 20px; 
+            margin: 0;
+        }
+        .panel { 
+            border: 2px solid #238636; 
+            border-radius: 15px; 
+            padding: 10px; /* Menos padding para dar espacio a la foto */
+            background: #161b22; 
+            max-width: 90%; /* Más ancho en celular */
+            margin: 20px auto; 
+            overflow: hidden; /* Para que nada se salga */
+        }
+        img { 
+            width: 100%; /* Ocupa todo el ancho del panel */
+            height: auto; /* Mantiene la proporción, no se estira */
+            border-radius: 10px; /* Bordes suavemente redondeados, no un círculo */
+            border: 2px solid #238636; 
+            margin-bottom: 15px; 
+            display: block; /* Quita espacios raros */
+        }
+        h1 { color: #238636; font-size: 28px; margin: 10px 0; }
+        .status-container {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
         .status { color: #3fb950; font-weight: bold; }
+        .avatar-name { color: #58a6ff; font-weight: bold; }
+        hr { border: 0.5px solid #30363d; margin: 15px 0; }
+        .footer-text { font-size: 14px; color: #8b949e; padding-bottom: 10px; }
     </style>
 </head>
 <body>
     <div class="panel">
         <img src="Camila.jpg" alt="Camila AI">
+        
         <h1>WINFORMATION IA</h1>
-        <p>Avatar: <strong>Camila</strong></p>
-        <p>Estado: <span class="status">EN LÍNEA</span></p>
-        <hr style="border: 0.5px solid #30363d;">
-        <p style="font-size: 12px; color: #8b949e;">Sistema de Análisis Deportivo y Financiero</p>
+        
+        <div class="status-container">
+            <p>Avatar: <span class="avatar-name">Camila</span></p>
+            <p>Estado: <span class="status">● EN LÍNEA</span></p>
+        </div>
+        
+        <hr>
+        
+        <p class="footer-text">Sistema de Análisis Deportivo y Financiero</p>
     </div>
 </body>
 </html>
