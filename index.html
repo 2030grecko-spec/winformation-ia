@@ -9,43 +9,78 @@
             background-color: #000; 
             margin: 0; 
             padding: 0; 
-            font-family: 'Courier New', Courier, monospace; /* Fuente tipo consola */
+            font-family: 'Courier New', Courier, monospace; 
             color: #3fb950;
             display: flex;
             flex-direction: column;
             height: 100vh;
+            overflow: hidden; /* Mantiene todo en la pantalla */
         }
 
-        /* PANTALLA DE TELEVISIÓN (ARRIBA) */
-        .tv-screen {
+        /* --- LA ORBE TECNOLÓGICA (ARRIBA) --- */
+        .orb-container {
             width: 100%;
-            height: 55%; /* Ocupa un poco más de la mitad */
-            background: #000;
-            border-bottom: 4px solid #238636;
-            overflow: hidden;
+            height: 50%; /* Ocupa la mitad superior */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 70%); /* Fondo con profundidad */
+            position: relative;
+            border-bottom: 3px solid #238636;
         }
-        .tv-screen img {
+
+        .main-orb {
+            width: 70vw; /* Ancho de la esfera */
+            height: 70vw; /* Alto de la esfera (igual para que sea redonda) */
+            max-width: 300px; /* Tamaño máximo en PC */
+            max-height: 300px;
+            border-radius: 50%; /* La hace redonda */
+            position: relative;
+            box-shadow: 0 0 30px #238636, inset 0 0 15px #238636; /* Resplandor */
+            overflow: hidden;
+            border: 2px solid #3fb950;
+        }
+
+        /* La foto dentro de la esfera */
+        .main-orb img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Para que la TV no corte la imagen */
-            background-color: #161b22;
+            object-fit: cover; /* Ajusta la foto sin deformar */
+            opacity: 0.9;
+            filter: grayscale(30%) contrast(120%); /* Efecto tecnológico */
         }
 
-        /* PANEL DE CONTROL (ABAJO) */
+        /* Capa de símbolos tecnológicos sobre la esfera */
+        .tech-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMzZmI5NTAiIGZpbGwtb3BhY2l0eT0iMC4yIj48cGF0aCBkPSJNMCAwaDQwdjQwaC00MFYwek0yMCAyMGgyMHYyMGgtMjBWMjB6TTAgMjBoMjB2MjBoLTIwVjIwek0yMCAwaDIwdjIwaC0yMFYwek0xMCAxMGgxMHYxMGgtMTBWMTB6TTMwIDMwSDEwdjEwaDIwVjMwek0zMCAxMGgxMHYxMGgtMTBWMTB6TTEwIDMwSDEwdjEwaDIwVjMwek0wIDQwSDEwdjEwaDIwVjMwek0zMCAxMEgxMHYxMGgyMFYxMHoiLz48L2c+PC9nPjwvc3ZnPg==');
+            /* Patrón de circuitos (puedes buscar uno mejor) */
+            opacity: 0.3;
+            animation: rotateOverlay 60s linear infinite; /* Animación de rotación */
+        }
+
+        @keyframes rotateOverlay {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- PANEL DE CONTROL (ABAJO) --- */
         .control-panel {
             flex: 1;
             background: #0d1117;
-            padding: 15px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
-            border-top: 2px solid #30363d;
+            border-top: 1px solid #30363d;
         }
 
         .brand {
-            color: #238636;
-            font-size: 22px;
+            color: #3fb950;
+            font-size: 18px;
             font-weight: bold;
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
+            text-align: center;
             text-shadow: 0 0 5px #238636;
         }
 
@@ -53,40 +88,43 @@
             background: #000;
             border: 1px solid #238636;
             border-radius: 5px;
-            padding: 10px;
+            padding: 8px;
             flex-grow: 1;
-            font-size: 14px;
-            overflow-y: auto;
+            font-size: 12px;
+            overflow-y: auto; /* Permite scroll si el texto es mucho */
             box-shadow: inset 0 0 10px #238636;
         }
 
-        .status-line { margin: 5px 0; color: #58a6ff; }
-        .data-line { margin: 5px 0; color: #3fb950; }
+        .status-line { margin: 3px 0; color: #58a6ff; }
+        .data-line { margin: 3px 0; color: #3fb950; }
         
         .footer {
-            font-size: 10px;
+            font-size: 9px;
             color: #8b949e;
             text-align: right;
-            margin-top: 10px;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
 
-    <div class="tv-screen">
-        <img src="Camila.jpg" alt="Winformation TV">
+    <div class="orb-container">
+        <div class="main-orb">
+            <img src="Camila.jpg" alt="Winformation TV">
+            <div class="tech-overlay"></div> </div>
     </div>
 
     <div class="control-panel">
         <div class="brand">WINFORMATION IA</div>
         
         <div class="console-box">
-            <div class="status-line">> SISTEMA: EN LÍNEA</div>
-            <div class="status-line">> AVATAR: CAMILA_V1</div>
-            <div class="status-line">> CONEXIÓN: ESTABLE</div>
-            <div class="data-line">--------------------------</div>
-            <div class="data-line">> M y F: PROCESANDO DATOS...</div>
-            <div class="data-line">> ANALIZANDO MERCADOS...</div>
+            <div class="status-line">SYS > INICIANDO ORBE...</div>
+            <div class="status-line">SYS > AVATAR CAMILA_V1 CARGADO</div>
+            <div class="status-line">SYS > VINCULACIÓN ESTABLE</div>
+            <div class="data-line">-----------------------------</div>
+            <div class="data-line">M y F > PROCESANDO FLUJO DATOS...</div>
+            <div class="data-line">M y F > ANALIZANDO MERCADOS ACTIVOS...</div>
+            <div class="data-line">M y F > PREDICCIÓN_DEPORTIVA: 87% CONF.</div>
         </div>
 
         <div class="footer">OPERADOR: J.G.L.M.</div>
