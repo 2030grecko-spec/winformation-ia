@@ -3,145 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Centro de Mando</title>
+    <title>Winformation IA - Terminal de Mando</title>
     <style>
-        body { 
-            background-color: #000; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Courier New', Courier, monospace; 
-            color: #3fb950;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden; /* Mantiene todo en la pantalla */
-        }
-
-        /* --- LA GRAN ORBE DE CRISTAL (ARRIBA) --- */
-        .orb-command-center {
-            width: 100%;
-            height: 65%; /* Ocupa la mayor parte superior para que ella luzca */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle, #1a1a1a 0%, #000 70%);
-            position: relative;
-            border-bottom: 2px solid #238636;
-        }
-
-        .crystal-orb {
-            width: 90vw; /* Gran tamaño para que ella se vea bien */
-            height: 90vw; 
-            max-width: 450px; /* Tamaño máximo en PC */
-            max-height: 450px;
-            border-radius: 50%; /* Esfera perfecta */
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(63, 185, 80, 0.5); /* Borde suave de cristal */
-            
-            /* EFECTO DE CRISTAL Y RESPLANDOR */
-            background: rgba(255, 255, 255, 0.05); /* Fondo muy sutil */
-            backdrop-filter: blur(2px); /* Ligero desenfoque de cristal */
-            box-shadow: 
-                0 0 40px rgba(35, 134, 54, 0.6), /* Resplandor externo verde */
-                inset 0 0 25px rgba(255, 255, 255, 0.1); /* Brillo interno de cristal */
-        }
-
-        /* La foto de Camila dentro de la orbe (Muestra hasta la cintura) */
-        .crystal-orb img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Para que ella se vea completa, no cortada */
-            object-position: center top; /* Alinea la foto arriba */
-            opacity: 0.95;
-            filter: grayscale(10%) contrast(110%); /* Efecto nítido */
-            position: relative;
-            z-index: 1; /* Detrás de los símbolos */
-        }
-
-        /* Capa de símbolos tecnológicos de cristal (COMO EL LOGO) */
-        .tech-symbols-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            
-            /* ESTO SIMULA EL PATRÓN DEL LOGO (PUEDES BUSCAR UN SVG MEJOR) */
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM4Yjk0OWUiIGZpbGwtb3BhY2l0eT0iMC4xNSI+PHBhdGggZD0iTTAgMGg2MHY2MEgtMDBWMnpNMjAgMjBoNDB2NDBILTIwVjIwek0wIDIwaDIwdjQwSC0yMFYywek0yMCAwaDQwdjIwSC0yMFYwek0xMCAxMGgyMHYyMEgtMjBWMTB6TTMwIDMwSDEwdjIwSDMwVjMwek0zMCAxMEg1MHYyMEgzMFYxMHpNMTAgMzBINTEwdjIwSDMxVjMwek0wIDYwSDIwdjIwSDIwVjYwek00MCAxMEg1MHYyMEg1MFYxMHoiLz48L2c+PC9nPjwvc3ZnPg==');
-            
-            opacity: 0.8; /* Símbolos sutiles, transparentes */
-            z-index: 2; /* Sobre la foto */
-            pointer-events: none; /* No interfiere con clics */
-            animation: rotateSymbols 120s linear infinite; /* Rotación ultra lenta */
-        }
-
-        @keyframes rotateSymbols {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* --- PANEL DE CONTROL DE DATOS (ABAJO) --- */
-        .data-control-panel {
-            flex: 1;
-            background: #0d1117;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid #30363d;
-        }
-
-        .brand-header {
-            color: #3fb950;
-            font-size: 20px;
-            font-weight: bold;
-            margin: 0 0 5px 0;
-            text-align: center;
-            text-shadow: 0 0 8px #238636;
-        }
-
-        .console-stream {
-            background: #000;
-            border: 1px solid #238636;
-            border-radius: 5px;
-            padding: 8px;
-            flex-grow: 1;
-            font-size: 13px;
-            overflow-y: auto;
-            box-shadow: inset 0 0 10px #238636;
-        }
-
-        .status-feed { margin: 4px 0; color: #58a6ff; }
-        .m-f-feed { margin: 4px 0; color: #3fb950; }
+        body { background-color: #000; margin: 0; padding: 0; font-family: 'Courier New', monospace; color: #3fb950; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        .operator-footer {
-            font-size: 10px;
-            color: #8b949e;
-            text-align: right;
-            margin-top: 5px;
-        }
+        /* ORBE SUPERIOR */
+        .orb-zone { width: 100%; height: 50%; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle, #1a1a1a 0%, #000 70%); position: relative; border-bottom: 2px solid #238636; }
+        .crystal-orb { width: 75vw; height: 75vw; max-width: 350px; max-height: 350px; border-radius: 50%; position: relative; overflow: hidden; border: 2px solid rgba(63, 185, 80, 0.5); box-shadow: 0 0 30px rgba(35, 134, 54, 0.6); }
+        .crystal-orb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.95; }
+
+        /* PANEL DE CONTROL Y ENTRADA */
+        .control-panel { flex: 1; background: #0d1117; padding: 15px; display: flex; flex-direction: column; }
+        .console-output { background: #000; border: 1px solid #238636; border-radius: 5px; padding: 10px; flex-grow: 1; font-size: 12px; overflow-y: auto; margin-bottom: 10px; box-shadow: inset 0 0-10px #238636; }
+        
+        /* AQUÍ ESCRIBES TÚ */
+        .input-area { display: flex; gap: 5px; background: #161b22; padding: 5px; border-radius: 5px; border: 1px solid #30363d; }
+        input { background: transparent; border: none; color: #fff; flex: 1; padding: 10px; font-family: inherit; outline: none; }
+        button { background: #238636; border: none; color: white; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        .brand { font-size: 18px; text-align: center; margin-bottom: 5px; color: #3fb950; text-shadow: 0 0 5px #238636; }
     </style>
 </head>
 <body>
 
-    <div class="orb-command-center">
+    <div class="orb-zone">
         <div class="crystal-orb">
-            <img src="Camila.jpg" alt="Winformation Command">
-            <div class="tech-symbols-overlay"></div> </div>
+            <img src="Camila.jpg" alt="Camila AI">
+        </div>
     </div>
 
-    <div class="data-control-panel">
-        <div class="brand-header">WINFORMATION IA</div>
+    <div class="control-panel">
+        <div class="brand">WINFORMATION IA - CONSOLA</div>
         
-        <div class="console-stream">
-            <div class="status-feed">ORBE > INICIANDO SECUENCIA M y F...</div>
-            <div class="status-feed">ORBE > AVATAR CAMILA_V1 VINCULADO [100%]</div>
-            <div class="status-feed">ORBE > ESTADO: TOTALMENTE OPERATIVA</div>
-            <div class="m-f-feed">-------------------------------</div>
-            <div class="m-f-feed">M y F > ANALIZANDO FLUJOS DE CAPITAL...</div>
-            <div class="m-f-feed">M y F > DETECTANDO TENDENCIAS DEPORTIVAS...</div>
-            <div class="m-f-feed">M y F > PREPARANDO PREDICCIÓN_ALTA_CONF...</div>
+        <div class="console-output" id="output">
+            <div>> SISTEMA INICIADO...</div>
+            <div>> ESPERANDO COMANDOS DE J.G.L.M...</div>
         </div>
 
-        <div class="operator-footer">OPERADOR: J.G.L.M.</div>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Escribe aquí tu orden...">
+            <button onclick="sendCommand()">ENVIAR</button>
+        </div>
     </div>
+
+    <script>
+        function sendCommand() {
+            const input = document.getElementById('userInput');
+            const output = document.getElementById('output');
+            if(input.value.trim() !== "") {
+                output.innerHTML += `<div style="color: #58a6ff;">> TÚ: ${input.value}</div>`;
+                output.innerHTML += `<div>> CAMILA: Procesando datos en M y F...</div>`;
+                input.value = "";
+                output.scrollTop = output.scrollHeight;
+            }
+        }
+    </script>
 
 </body>
 </html>
