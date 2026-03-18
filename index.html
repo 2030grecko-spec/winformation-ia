@@ -3,37 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Centro de Control</title>
+    <title>Winformation IA - M y F</title>
     <style>
-        body { background-color: #000; margin: 0; padding: 0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        .impact-zone { width: 100%; height: 60%; display: flex; justify-content: center; align-items: center; border-bottom: 3px solid #3fb950; background: #000; }
+        /* FONDO GRIS TECNOLÓGICO - NADA DE NEGRO */
+        body { background-color: #1a1d23; margin: 0; padding: 0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        
+        /* ZONA DE LA FOTO */
+        .impact-zone { width: 100%; height: 55%; display: flex; justify-content: center; align-items: center; background: #24292e; border-bottom: 4px solid #3fb950; }
         .impact-zone img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .control-panel { flex: 1; background: #161b22; padding: 15px; display: flex; flex-direction: column; }
-        .console-screen { background: #000; border: 1px solid #3fb950; border-radius: 8px; padding: 10px; flex-grow: 1; font-size: 14px; color: #58a6ff; overflow-y: auto; margin-bottom: 15px; box-shadow: inset 0 0 15px rgba(63, 185, 80, 0.2); }
-        .input-box { display: flex; gap: 10px; background: #0d1117; padding: 5px 10px; border: 2px solid #3fb950; border-radius: 12px; box-shadow: 0 0 15px #3fb950; }
-        input { background: transparent; border: none; color: #fff; flex: 1; padding: 12px; font-family: inherit; outline: none; font-size: 16px; }
+
+        /* PANEL DE CONTROL */
+        .control-panel { flex: 1; background: #2d333b; padding: 15px; display: flex; flex-direction: column; }
+        
+        /* PANTALLA DE DATOS - FONDO AZUL MUY OSCURO (NO NEGRO) */
+        .console-screen { background: #0d1117; border: 2px solid #3fb950; border-radius: 8px; padding: 10px; flex-grow: 1; font-size: 14px; color: #58a6ff; overflow-y: auto; margin-bottom: 15px; box-shadow: 0 0 10px rgba(63, 185, 80, 0.3); }
+        
+        /* RECUADRO VERDE ELÉCTRICO */
+        .input-box { display: flex; gap: 10px; background: #22272e; padding: 8px; border: 3px solid #3fb950; border-radius: 15px; box-shadow: 0 0 20px #3fb950; }
+        input { background: transparent; border: none; color: #fff; flex: 1; padding: 10px; font-family: inherit; outline: none; font-size: 16px; }
         button { background: #3fb950; border: none; color: #000; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
+
     <div class="impact-zone">
-        <img src="CamilaDelfuturo.jpg" alt="Camila del Futuro">
+        <img src="CamilaDelfuturo.jpg" alt="Winformation M y F">
     </div>
+
     <div class="control-panel">
         <div class="console-screen" id="log">
-            <div style="color: #3fb950;">> SISTEMA WINFORMATION ACTIVO...</div>
+            <div style="color: #3fb950;">> SISTEMA WINFORMATION VINCULADO...</div>
         </div>
+
         <div class="input-box">
             <input type="text" id="command" placeholder="Mandar datos a la nube...">
             <button onclick="send()">ENVIAR</button>
         </div>
     </div>
+
     <script>
         function send() {
             const cmd = document.getElementById('command');
             const log = document.getElementById('log');
             if(cmd.value.trim() !== "") {
-                log.innerHTML += `<div style="color:#58a6ff">> DATOS NUBE: ${cmd.value}</div>`;
+                log.innerHTML += `<div style="color:#58a6ff">> NUBE: ${cmd.value}</div>`;
                 cmd.value = "";
                 log.scrollTop = log.scrollHeight;
             }
