@@ -3,27 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Panel</title>
+    <title>Winformation IA - Cursos</title>
     <style>
-        body { background-color: #000; color: #39ff14; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; margin: 0; padding: 20px; }
-        .container { background-color: #111; border: 2px solid #39ff14; border-radius: 25px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 0 20px #39ff14; margin-top: 20px; }
-        .avatar-frame { width: 200px; height: 200px; border-radius: 50%; border: 4px solid #39ff14; margin: 0 auto 15px; overflow: hidden; box-shadow: 0 0 15px #39ff14; background-color: #222; display: flex; align-items: center; justify-content: center; }
-        .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
-        h1 { font-size: 26px; text-shadow: 0 0 10px #39ff14; letter-spacing: 2px; }
-        textarea { width: 100%; height: 100px; background: #000; border: 1px solid #39ff14; color: #fff; border-radius: 10px; padding: 10px; margin: 15px 0; box-sizing: border-box; font-size: 16px; }
-        .btn { background-color: #39ff14; color: #000; border: none; padding: 18px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; text-transform: uppercase; }
+        body { background-color: #000; color: #39ff14; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .panel { background-color: #111; border: 2px solid #39ff14; border-radius: 25px; padding: 25px; width: 95%; max-width: 450px; text-align: center; box-shadow: 0 0 20px #39ff14; }
+        .foto-camila { width: 180px; height: 180px; border-radius: 50%; border: 4px solid #39ff14; margin: 0 auto 15px; overflow: hidden; box-shadow: 0 0 15px #39ff14; }
+        .foto-camila img { width: 100%; height: 100%; object-fit: cover; }
+        .curso-box { background: #000; border: 1px solid #39ff14; border-radius: 10px; margin: 10px 0; padding: 10px; text-align: left; }
+        .btn { background-color: #39ff14; color: #000; border: none; padding: 15px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <h1>WINFORMATION IA</h1>
-    <div class="container">
-        <div class="avatar-frame">
-            <img src="536.jpg" onerror="this.src='https://raw.githubusercontent.com/2030grecko-spec/winformation-ia/main/536.jpg'" alt="Camila">
+    <h1>CURSOS CON CAMILA</h1>
+    <div class="panel">
+        <div class="foto-camila">
+            <img src="https://raw.githubusercontent.com/2030grecko-spec/winformation-ia/main/536.jpg" alt="Camila">
         </div>
-        <h3 style="color: #fff; margin: 5px;">ADMINISTRADOR: GRECO</h3>
-        <textarea placeholder="Datos para la nube..."></textarea>
-        <button class="btn" onclick="alert('DATOS ENVIADOS CON ÉXITO')">ENVIAR A LA NUBE</button>
+        <h3 style="color:#fff">BIENVENIDO, GRECO</h3>
+        <p style="font-size: 0.9em;">Selecciona tu nivel de aprendizaje:</p>
+        
+        <div class="curso-box">
+            <strong style="color: #39ff14;">1. Lógica Visual</strong>
+            <p style="margin: 5px 0; font-size: 0.8em; color: #ccc;">Aprende a pensar como una IA usando bloques.</p>
+        </div>
+        <div class="curso-box">
+            <strong style="color: #39ff14;">2. Código Real (Python)</strong>
+            <p style="margin: 5px 0; font-size: 0.8em; color: #ccc;">Escribe tus primeras líneas de código puro.</p>
+        </div>
+
+        <button class="btn" onclick="alert('Iniciando curso con Camila...')">EMPEZAR CURSO</button>
     </div>
-    <p style="margin-top: 25px; font-size: 12px; color: #39ff14; opacity: 0.6;">PANEL DE CONTROL V1.0</p>
+    <p style="margin-top:20px; font-size: 10px; color: #39ff14; opacity: 0.5;">WINFORMATION IA V1.0</p>
 </body>
 </html>
