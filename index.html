@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA</title>
+    <title>Winformation IA - Panel Administrativo</title>
     <style>
-        body { background-color: #000; color: #39ff14; font-family: monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .panel { border: 3px solid #39ff14; border-radius: 25px; padding: 25px; width: 90%; max-width: 380px; text-align: center; box-shadow: 0 0 20px #39ff14; background-color: #111; }
-        .avatar { width: 160px; height: 160px; border-radius: 50%; border: 4px solid #39ff14; margin: 0 auto 15px; overflow: hidden; box-shadow: 0 0 10px #39ff14; background-color: #222; }
+        body { background-color: #000; color: #39ff14; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .panel { border: 2px solid #39ff14; border-radius: 20px; padding: 20px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 0 15px #39ff14; background: #050505; }
+        .avatar { width: 150px; height: 150px; border-radius: 50%; border: 3px solid #39ff14; margin: 0 auto 15px; overflow: hidden; box-shadow: 0 0 10px #39ff14; }
         .avatar img { width: 100%; height: 100%; object-fit: cover; }
-        textarea { width: 100%; height: 80px; background: #000; border: 1px solid #39ff14; color: #fff; border-radius: 10px; padding: 10px; margin: 15px 0; box-sizing: border-box; }
-        .btn { background-color: #39ff14; color: #000; border: none; padding: 15px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 16px; }
+        h2 { font-size: 18px; margin: 10px 0; letter-spacing: 1px; }
+        .status { font-size: 12px; color: #fff; margin-bottom: 15px; opacity: 0.8; }
+        .btn { background: #39ff14; color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; }
     </style>
 </head>
 <body>
-    <h1 style="font-size: 22px; letter-spacing: 2px;">WININFORMATION IA</h1>
     <div class="panel">
         <div class="avatar">
-            <img src="https://raw.githubusercontent.com/2030grecko-spec/winformation-ia/main/536.jpg" onerror="this.src='https://i.postimg.cc/mD8z4y3V/camila.jpg'" alt="Camila">
+            <img src="https://i.ibb.co/VWVh6vH/camila-verde.jpg" alt="Camila">
         </div>
-        <h3 style="color:white; margin: 5px 0;">ADMIN: GRECO</h3>
-        <textarea placeholder="Datos para la nube..."></textarea>
-        <button class="btn" onclick="alert('ENVIADO A LA NUBE')">ENVIAR</button>
+        <h2>WININFORMATION IA</h2>
+        <div class="status">ADMIN: GRECO (SESIÓN ACTIVA)</div>
+        <p style="font-size: 11px;">PROYECTO: CURSO 41 - MÓDULO NUBE</p>
+        <button class="btn">ACCEDER A DATOS</button>
     </div>
-    <p style="margin-top: 20px; font-size: 10px; opacity: 0.5;">REPOSO ACTIVO - DÍA 1</p>
 </body>
 </html>
