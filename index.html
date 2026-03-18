@@ -3,51 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Panel de Control</title>
+    <title>Winformation IA - Centro de Control</title>
     <style>
         body { 
-            background-color: #0d1117; 
-            color: #58a6ff; 
-            font-family: sans-serif; 
-            text-align: center; 
-            padding: 10px; 
-            margin: 0;
+            background-color: #000; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Courier New', Courier, monospace; /* Fuente tipo consola */
+            color: #3fb950;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
-        .panel { 
-            border: 2px solid #238636; 
-            border-radius: 15px; 
-            padding: 10px; 
-            background: #161b22; 
-            max-width: 350px; /* Un poco más estrecho para que suba todo */
-            margin: 10px auto; 
+
+        /* PANTALLA DE TELEVISIÓN (ARRIBA) */
+        .tv-screen {
+            width: 100%;
+            height: 55%; /* Ocupa un poco más de la mitad */
+            background: #000;
+            border-bottom: 4px solid #238636;
+            overflow: hidden;
         }
-        img { 
-            width: 100%; 
-            height: auto; 
-            border-radius: 10px; 
-            border: 2px solid #238636; 
-            margin-bottom: 10px; 
+        .tv-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Para que la TV no corte la imagen */
+            background-color: #161b22;
         }
-        h1 { color: #238636; font-size: 22px; margin: 5px 0; } /* Letras más pequeñas */
-        .status-container {
-            font-size: 15px; /* Ajuste de tamaño */
-            margin-bottom: 10px;
+
+        /* PANEL DE CONTROL (ABAJO) */
+        .control-panel {
+            flex: 1;
+            background: #0d1117;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            border-top: 2px solid #30363d;
         }
-        .status { color: #3fb950; font-weight: bold; }
-        hr { border: 0.5px solid #30363d; margin: 10px 0; }
-        .footer-text { font-size: 12px; color: #8b949e; padding-bottom: 5px; } /* Texto chiquito */
+
+        .brand {
+            color: #238636;
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            text-shadow: 0 0 5px #238636;
+        }
+
+        .console-box {
+            background: #000;
+            border: 1px solid #238636;
+            border-radius: 5px;
+            padding: 10px;
+            flex-grow: 1;
+            font-size: 14px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 10px #238636;
+        }
+
+        .status-line { margin: 5px 0; color: #58a6ff; }
+        .data-line { margin: 5px 0; color: #3fb950; }
+        
+        .footer {
+            font-size: 10px;
+            color: #8b949e;
+            text-align: right;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
-    <div class="panel">
-        <img src="Camila.jpg" alt="Camila AI">
-        <h1>WINFORMATION IA</h1>
-        <div class="status-container">
-            <p>Avatar: <strong style="color: #58a6ff;">Camila</strong></p>
-            <p>Estado: <span class="status">● EN LÍNEA</span></p>
-        </div>
-        <hr>
-        <p class="footer-text">Sistema de Análisis Deportivo y Financiero</p>
+
+    <div class="tv-screen">
+        <img src="Camila.jpg" alt="Winformation TV">
     </div>
+
+    <div class="control-panel">
+        <div class="brand">WINFORMATION IA</div>
+        
+        <div class="console-box">
+            <div class="status-line">> SISTEMA: EN LÍNEA</div>
+            <div class="status-line">> AVATAR: CAMILA_V1</div>
+            <div class="status-line">> CONEXIÓN: ESTABLE</div>
+            <div class="data-line">--------------------------</div>
+            <div class="data-line">> M y F: PROCESANDO DATOS...</div>
+            <div class="data-line">> ANALIZANDO MERCADOS...</div>
+        </div>
+
+        <div class="footer">OPERADOR: J.G.L.M.</div>
+    </div>
+
 </body>
 </html>
