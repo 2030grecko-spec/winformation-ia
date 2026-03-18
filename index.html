@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Centro de Control</title>
+    <title>Winformation IA - Centro de Mando</title>
     <style>
         body { 
             background-color: #000; 
@@ -17,56 +17,69 @@
             overflow: hidden; /* Mantiene todo en la pantalla */
         }
 
-        /* --- LA ORBE TECNOLÓGICA (ARRIBA) --- */
-        .orb-container {
+        /* --- LA GRAN ORBE DE CRISTAL (ARRIBA) --- */
+        .orb-command-center {
             width: 100%;
-            height: 50%; /* Ocupa la mitad superior */
+            height: 65%; /* Ocupa la mayor parte superior para que ella luzca */
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle, #1a1a1a 0%, #000 70%); /* Fondo con profundidad */
+            background: radial-gradient(circle, #1a1a1a 0%, #000 70%);
             position: relative;
-            border-bottom: 3px solid #238636;
+            border-bottom: 2px solid #238636;
         }
 
-        .main-orb {
-            width: 70vw; /* Ancho de la esfera */
-            height: 70vw; /* Alto de la esfera (igual para que sea redonda) */
-            max-width: 300px; /* Tamaño máximo en PC */
-            max-height: 300px;
-            border-radius: 50%; /* La hace redonda */
+        .crystal-orb {
+            width: 90vw; /* Gran tamaño para que ella se vea bien */
+            height: 90vw; 
+            max-width: 450px; /* Tamaño máximo en PC */
+            max-height: 450px;
+            border-radius: 50%; /* Esfera perfecta */
             position: relative;
-            box-shadow: 0 0 30px #238636, inset 0 0 15px #238636; /* Resplandor */
             overflow: hidden;
-            border: 2px solid #3fb950;
+            border: 2px solid rgba(63, 185, 80, 0.5); /* Borde suave de cristal */
+            
+            /* EFECTO DE CRISTAL Y RESPLANDOR */
+            background: rgba(255, 255, 255, 0.05); /* Fondo muy sutil */
+            backdrop-filter: blur(2px); /* Ligero desenfoque de cristal */
+            box-shadow: 
+                0 0 40px rgba(35, 134, 54, 0.6), /* Resplandor externo verde */
+                inset 0 0 25px rgba(255, 255, 255, 0.1); /* Brillo interno de cristal */
         }
 
-        /* La foto dentro de la esfera */
-        .main-orb img {
+        /* La foto de Camila dentro de la orbe (Muestra hasta la cintura) */
+        .crystal-orb img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ajusta la foto sin deformar */
-            opacity: 0.9;
-            filter: grayscale(30%) contrast(120%); /* Efecto tecnológico */
+            object-fit: contain; /* Para que ella se vea completa, no cortada */
+            object-position: center top; /* Alinea la foto arriba */
+            opacity: 0.95;
+            filter: grayscale(10%) contrast(110%); /* Efecto nítido */
+            position: relative;
+            z-index: 1; /* Detrás de los símbolos */
         }
 
-        /* Capa de símbolos tecnológicos sobre la esfera */
-        .tech-overlay {
+        /* Capa de símbolos tecnológicos de cristal (COMO EL LOGO) */
+        .tech-symbols-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMzZmI5NTAiIGZpbGwtb3BhY2l0eT0iMC4yIj48cGF0aCBkPSJNMCAwaDQwdjQwaC00MFYwek0yMCAyMGgyMHYyMGgtMjBWMjB6TTAgMjBoMjB2MjBoLTIwVjIwek0yMCAwaDIwdjIwaC0yMFYwek0xMCAxMGgxMHYxMGgtMTBWMTB6TTMwIDMwSDEwdjEwaDIwVjMwek0zMCAxMGgxMHYxMGgtMTBWMTB6TTEwIDMwSDEwdjEwaDIwVjMwek0wIDQwSDEwdjEwaDIwVjMwek0zMCAxMEgxMHYxMGgyMFYxMHoiLz48L2c+PC9nPjwvc3ZnPg==');
-            /* Patrón de circuitos (puedes buscar uno mejor) */
-            opacity: 0.3;
-            animation: rotateOverlay 60s linear infinite; /* Animación de rotación */
+            
+            /* ESTO SIMULA EL PATRÓN DEL LOGO (PUEDES BUSCAR UN SVG MEJOR) */
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM4Yjk0OWUiIGZpbGwtb3BhY2l0eT0iMC4xNSI+PHBhdGggZD0iTTAgMGg2MHY2MEgtMDBWMnpNMjAgMjBoNDB2NDBILTIwVjIwek0wIDIwaDIwdjQwSC0yMFYywek0yMCAwaDQwdjIwSC0yMFYwek0xMCAxMGgyMHYyMEgtMjBWMTB6TTMwIDMwSDEwdjIwSDMwVjMwek0zMCAxMEg1MHYyMEgzMFYxMHpNMTAgMzBINTEwdjIwSDMxVjMwek0wIDYwSDIwdjIwSDIwVjYwek00MCAxMEg1MHYyMEg1MFYxMHoiLz48L2c+PC9nPjwvc3ZnPg==');
+            
+            opacity: 0.8; /* Símbolos sutiles, transparentes */
+            z-index: 2; /* Sobre la foto */
+            pointer-events: none; /* No interfiere con clics */
+            animation: rotateSymbols 120s linear infinite; /* Rotación ultra lenta */
         }
 
-        @keyframes rotateOverlay {
+        @keyframes rotateSymbols {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
 
-        /* --- PANEL DE CONTROL (ABAJO) --- */
-        .control-panel {
+        /* --- PANEL DE CONTROL DE DATOS (ABAJO) --- */
+        .data-control-panel {
             flex: 1;
             background: #0d1117;
             padding: 10px;
@@ -75,31 +88,31 @@
             border-top: 1px solid #30363d;
         }
 
-        .brand {
+        .brand-header {
             color: #3fb950;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             margin: 0 0 5px 0;
             text-align: center;
-            text-shadow: 0 0 5px #238636;
+            text-shadow: 0 0 8px #238636;
         }
 
-        .console-box {
+        .console-stream {
             background: #000;
             border: 1px solid #238636;
             border-radius: 5px;
             padding: 8px;
             flex-grow: 1;
-            font-size: 12px;
-            overflow-y: auto; /* Permite scroll si el texto es mucho */
+            font-size: 13px;
+            overflow-y: auto;
             box-shadow: inset 0 0 10px #238636;
         }
 
-        .status-line { margin: 3px 0; color: #58a6ff; }
-        .data-line { margin: 3px 0; color: #3fb950; }
+        .status-feed { margin: 4px 0; color: #58a6ff; }
+        .m-f-feed { margin: 4px 0; color: #3fb950; }
         
-        .footer {
-            font-size: 9px;
+        .operator-footer {
+            font-size: 10px;
             color: #8b949e;
             text-align: right;
             margin-top: 5px;
@@ -108,26 +121,26 @@
 </head>
 <body>
 
-    <div class="orb-container">
-        <div class="main-orb">
-            <img src="Camila.jpg" alt="Winformation TV">
-            <div class="tech-overlay"></div> </div>
+    <div class="orb-command-center">
+        <div class="crystal-orb">
+            <img src="Camila.jpg" alt="Winformation Command">
+            <div class="tech-symbols-overlay"></div> </div>
     </div>
 
-    <div class="control-panel">
-        <div class="brand">WINFORMATION IA</div>
+    <div class="data-control-panel">
+        <div class="brand-header">WINFORMATION IA</div>
         
-        <div class="console-box">
-            <div class="status-line">SYS > INICIANDO ORBE...</div>
-            <div class="status-line">SYS > AVATAR CAMILA_V1 CARGADO</div>
-            <div class="status-line">SYS > VINCULACIÓN ESTABLE</div>
-            <div class="data-line">-----------------------------</div>
-            <div class="data-line">M y F > PROCESANDO FLUJO DATOS...</div>
-            <div class="data-line">M y F > ANALIZANDO MERCADOS ACTIVOS...</div>
-            <div class="data-line">M y F > PREDICCIÓN_DEPORTIVA: 87% CONF.</div>
+        <div class="console-stream">
+            <div class="status-feed">ORBE > INICIANDO SECUENCIA M y F...</div>
+            <div class="status-feed">ORBE > AVATAR CAMILA_V1 VINCULADO [100%]</div>
+            <div class="status-feed">ORBE > ESTADO: TOTALMENTE OPERATIVA</div>
+            <div class="m-f-feed">-------------------------------</div>
+            <div class="m-f-feed">M y F > ANALIZANDO FLUJOS DE CAPITAL...</div>
+            <div class="m-f-feed">M y F > DETECTANDO TENDENCIAS DEPORTIVAS...</div>
+            <div class="m-f-feed">M y F > PREPARANDO PREDICCIÓN_ALTA_CONF...</div>
         </div>
 
-        <div class="footer">OPERADOR: J.G.L.M.</div>
+        <div class="operator-footer">OPERADOR: J.G.L.M.</div>
     </div>
 
 </body>
