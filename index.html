@@ -3,16 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - M y F</title>
+    <title>Winformation IA - Panel de Control</title>
     <style>
         body { background-color: #24292e; margin: 0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        .impact-zone { width: 100%; height: 55%; display: flex; justify-content: center; align-items: center; background: #2d333b; border-bottom: 5px solid #3fb950; }
+        
+        /* ZONA DE IMPACTO: Se ajusta suavemente cuando abres el teclado */
+        .impact-zone { 
+            width: 100%; 
+            height: 55%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background: #2d333b; 
+            border-bottom: 5px solid #3fb950; 
+            transition: height 0.3s ease; 
+        }
         .impact-zone img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .control-panel { flex: 1; background: #1c2128; padding: 15px; display: flex; flex-direction: column; }
-        .console-screen { background: #0d1117; border: 2px solid #3fb950; border-radius: 10px; padding: 12px; font-size: 14px; color: #58a6ff; overflow-y: auto; margin-bottom: 15px; box-shadow: 0 0 15px rgba(63, 185, 80, 0.4); }
-        .input-box { display: flex; gap: 10px; background: #2d333b; padding: 10px; border: 4px solid #3fb950; border-radius: 20px; box-shadow: 0 0 25px #3fb950; }
-        input { background: transparent; border: none; color: #fff; flex: 1; padding: 10px; outline: none; font-size: 16px; }
-        button { background: #3fb950; border: none; color: #000; padding: 10px 20px; border-radius: 12px; font-weight: bold; }
+        
+        /* EFECTO TECLADO: Reduce la imagen para que no tape la consola al escribir */
+        body:focus-within .impact-zone { height: 30%; }
+
+        .control-panel { flex: 1; background: #1c2128; padding: 15px; display: flex; flex-direction: column; overflow: hidden; }
+        
+        .console-screen { 
+            background: #0d1117; 
+            border: 2px solid #3fb950; 
+            border-radius: 10px; 
+            padding: 12px; 
+            font-size: 14px; 
+            color: #58a6ff; 
+            overflow-y: auto; 
+            flex-grow: 1; 
+            margin-bottom: 15px; 
+            box-shadow: 0 0 15px rgba(63, 185, 80, 0.4); 
+        }
+
+        .input-box { 
+            display: flex; 
+            gap: 8px; 
+            background: #2d333b; 
+            padding: 10px; 
+            border: 4px solid #3fb950; 
+            border-radius: 20px; 
+            box-shadow: 0 0 25px #3fb950; 
+        }
+        input { background: transparent; border: none; color: #fff; flex: 1; padding: 10px; outline: none; font-size: 16px; min-width: 0; }
+        
+        button { background: #3fb950; border: none; color: #000; padding: 10px 15px; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        
+        /* Botón de Borrado (Basura) */
+        .btn-clear { background: #f85149; color: #fff; }
     </style>
 </head>
 <body>
@@ -25,20 +65,34 @@
             <div style="color: #3fb950;">> ESTADO: OPERATIVO</div>
         </div>
         <div class="input-box">
-            <input type="text" id="command" placeholder="ESCRIBE AQUÍ TU INFORMACIÓN...">
+            <input type="text" id="command" placeholder="ESCRIBE TU LÓGICA AQUÍ..." autocomplete="off">
             <button onclick="send()">ENVIAR</button>
+            <button class="btn-clear" onclick="borrarTodo()">🗑️</button>
         </div>
     </div>
+
     <script>
+        const log = document.getElementById('log');
+        const cmd = document.getElementById('command');
+
         function send() {
-            const cmd = document.getElementById('command');
-            const log = document.getElementById('log');
             if(cmd.value.trim() !== "") {
                 log.innerHTML += `<div style="color:#58a6ff">> NUBE: ${cmd.value}</div>`;
                 cmd.value = "";
                 log.scrollTop = log.scrollHeight;
             }
         }
+
+        function borrarTodo() {
+            log.innerHTML = `<div style="color: #3fb950;">> SISTEMA REINICIADO...</div><div style="color: #3fb950;">> ESTADO: OPERATIVO</div>`;
+        }
+
+        // Para que puedas enviar dándole a "Ir" o "Enter" en el teclado del celular
+        cmd.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                send();
+            }
+        });
     </script>
 </body>
 </html>
