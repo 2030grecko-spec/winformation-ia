@@ -3,52 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Winformation IA - Panel de Control</title>
+    <title>Winformation IA</title>
     <style>
-        body { background-color: #24292e; margin: 0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        /* Ajuste total para que nada se salga de la pantalla del móvil */
+        body { background-color: #24292e; margin: 0; font-family: monospace; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        /* Zona de imagen que se adapta al teclado del móvil */
+        /* Reducimos la zona de Camila al 35% para que los botones suban */
         .impact-zone { 
             width: 100%; 
-            height: 50%; 
+            height: 35%; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             background: #2d333b; 
-            border-bottom: 5px solid #3fb950; 
-            transition: height 0.3s ease; 
+            border-bottom: 3px solid #3fb950; 
         }
         .impact-zone img { max-width: 100%; max-height: 100%; object-fit: contain; }
         
-        /* Cuando el teclado se abre, la imagen se encoge para dar espacio */
-        @media (max-height: 500px) { .impact-zone { height: 25%; } }
-
-        .control-panel { flex: 1; background: #1c2128; padding: 15px; display: flex; flex-direction: column; overflow: hidden; }
+        .control-panel { flex: 1; background: #1c2128; padding: 8px; display: flex; flex-direction: column; overflow: hidden; }
         
         .console-screen { 
             background: #0d1117; 
             border: 2px solid #3fb950; 
-            border-radius: 10px; 
-            padding: 12px; 
-            font-size: 14px; 
+            border-radius: 8px; 
+            padding: 8px; 
+            font-size: 13px; 
             color: #58a6ff; 
             overflow-y: auto; 
             flex-grow: 1; 
-            margin-bottom: 15px; 
+            margin-bottom: 8px; 
         }
 
+        /* Caja de entrada compacta y SIEMPRE visible */
         .input-box { 
             display: flex; 
-            gap: 8px; 
+            gap: 5px; 
             background: #2d333b; 
-            padding: 10px; 
-            border: 3px solid #3fb950; 
-            border-radius: 20px; 
+            padding: 6px; 
+            border: 2px solid #3fb950; 
+            border-radius: 12px; 
+            margin-bottom: 5px;
         }
-        input { background: transparent; border: none; color: #fff; flex: 1; padding: 5px; outline: none; font-size: 16px; }
+        input { background: transparent; border: none; color: #fff; flex: 1; padding: 5px; outline: none; font-size: 16px; min-width: 0; }
         
-        button { background: #3fb950; border: none; color: #000; padding: 10px 15px; border-radius: 12px; font-weight: bold; }
+        button { background: #3fb950; border: none; color: #000; padding: 8px 10px; border-radius: 8px; font-weight: bold; font-size: 12px; }
         .btn-clear { background: #f85149; color: #fff; }
+
+        /* Regla de Oro: Si el teclado se abre, Camila se encoge al mínimo */
+        @media (max-height: 500px) { 
+            .impact-zone { height: 15%; } 
+            .console-screen { font-size: 11px; }
+        }
     </style>
 </head>
 <body>
@@ -57,12 +62,11 @@
     </div>
     <div class="control-panel">
         <div class="console-screen" id="log">
-            <div style="color: #3fb950;">> SISTEMA WINFORMATION VINCULADO...</div>
-            <div style="color: #3fb950;">> ESTADO: OPERATIVO EN LOCAL</div>
+            <div style="color: #3fb950;">> WINFORMATION VINCULADO...</div>
         </div>
         <div class="input-box">
-            <input type="text" id="command" placeholder="ESCRIBE TU LÓGICA..." autocomplete="off">
-            <button onclick="send()">ENVIAR</button>
+            <input type="text" id="command" placeholder="ESCRIBE AQUÍ..." autocomplete="off">
+            <button onclick="send()">OK</button>
             <button class="btn-clear" onclick="borrar()">🗑️</button>
         </div>
     </div>
@@ -73,17 +77,17 @@
 
         function send() {
             if(cmd.value.trim() !== "") {
-                log.innerHTML += `<div style="color:#58a6ff">> NUBE: ${cmd.value}</div>`;
+                log.innerHTML += `<div style="color:#58a6ff">> ${cmd.value}</div>`;
                 cmd.value = "";
                 log.scrollTop = log.scrollHeight;
             }
         }
 
         function borrar() {
-            log.innerHTML = `<div style="color: #3fb950;">> SISTEMA REINICIADO...</div>`;
+            log.innerHTML = `<div style="color: #3fb950;">> MEMORIA LIMPIA...</div>`;
         }
 
-        // Para enviar con el "Ir" del teclado del celular
+        /* Permite enviar con la tecla "Entrar" del teclado móvil */
         cmd.addEventListener("keypress", function(e) {
             if (e.key === "Enter") send();
         });
