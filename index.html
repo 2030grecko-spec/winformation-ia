@@ -2,76 +2,73 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Winformation IA - Panel Real</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winformation IA - Panel de Control</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <style>
-        body { background-color: #24292e; margin: 0; font-family: monospace; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        .impact-zone { width: 100%; height: 25vh; display: flex; justify-content: center; align-items: center; background: #2d333b; border-bottom: 3px solid #3fb950; flex-shrink: 0; }
-        .impact-zone img { max-height: 90%; max-width: 90%; object-fit: contain; }
-        .control-panel { flex: 1; background: #1c2128; padding: 10px; display: flex; flex-direction: column; overflow: hidden; }
-        .console-screen { background: #0d1117; border: 2px solid #3fb950; border-radius: 8px; padding: 10px; font-size: 14px; color: #58a6ff; overflow-y: auto; height: 50vh; margin-bottom: 10px; }
-        .input-box { display: flex; gap: 8px; background: #2d333b; padding: 10px; border: 3px solid #3fb950; border-radius: 15px; flex-shrink: 0; }
-        input { background: transparent; border: none; color: #fff; flex: 1; padding: 5px; outline: none; font-size: 16px; min-width: 0; }
-        button { background: #3fb950; border: none; color: #000; padding: 10px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .btn-clear { background: #f85149; color: #fff; }
+        body { background: #000; color: #0f0; font-family: 'Courier New', Courier, monospace; text-align: center; }
+        .container { border: 2px solid #ffd700; border-radius: 20px; padding: 20px; max-width: 400px; margin: auto; }
+        img { width: 150px; border-radius: 50%; border: 3px solid #ffd700; margin-bottom: 15px; }
+        select, textarea, button { width: 90%; margin: 10px 0; padding: 10px; border-radius: 10px; border: none; }
+        button { background: #ffd700; color: #000; font-weight: bold; cursor: pointer; }
+        .status { color: #ffd700; font-size: 0.8em; }
     </style>
 </head>
 <body>
-    <div class="impact-zone">
-        <img src="./CamilaDelfuro.jpg" alt="Winformation IA">
-    </div>
-    <div class="control-panel">
-        <div class="console-screen" id="log">
-            <div style="color: #3fb950;">> CONECTADO A WINFORMATION-IA...</div>
-        </div>
-        <div class="input-box">
-            <input type="text" id="command" placeholder="ESCRIBE O PEGA EL CURSO..." autocomplete="off">
-            <button id="btnSend">OK</button>
-            <button class="btn-clear" onclick="borrar()">🗑️</button>
-        </div>
+    <div class="container">
+        <h1>WINFORMATION IA</h1>
+        <img src="https://via.placeholder.com/150" alt="Camila Logo"> <p class="status">● OPERATIVO EN LA NUBE</p>
+        
+        <label>ELIGE EL DEPORTE:</label>
+        <select id="deporte">
+            <option value="Futbol">⚽ Fútbol</option>
+            <option value="Hockey">🏒 Hockey</option>
+            <option value="Badminton">🏸 Bádminton</option>
+            <option value="Caballos">🐎 Caballos</option>
+            <option value="Galgos">🐕 Perros (Galgos)</option>
+            <option value="F1">🏎️ Fórmula 1</option>
+        </select>
+
+        <label>ANÁLISIS DEL DÍA (El Caramelo):</label>
+        <textarea id="analisis" rows="4" placeholder="Pega aquí el análisis de Bet365..."></textarea>
+
+        <button onclick="inyectarDato()">INYECTAR AL BÚNKER</button>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-        // Tu llave que acabas de copiar
+    <script>
+        // Configuración sacada de tu foto 1864.jpg
         const firebaseConfig = {
-            apiKey: "AIzaSyB0yH9KCEL5WDcj9Aqnw4WyN2JruZDz1DQ",
+            apiKey: "AIzaSyAs-tu-api-key-aqui", 
             authDomain: "winformation-ia.firebaseapp.com",
             databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com",
             projectId: "winformation-ia",
-            storageBucket: "winformation-ia.firebasestorage.app",
-            messagingSenderId: "152740731727",
-            appId: "1:152740731727:web:e5b581986293fe57e2433a"
+            storageBucket: "winformation-ia.appspot.com",
+            messagingSenderId: "331980074121",
+            appId: "1:331980074121:web:9c2f6d71b4e24391e48545"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const logRef = ref(db, 'cursos');
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-        const log = document.getElementById('log');
-        const cmd = document.getElementById('command');
-        const btn = document.getElementById('btnSend');
+        function inyectarDato() {
+            const dep = document.getElementById('deporte').value;
+            const ana = document.getElementById('analisis').value;
 
-        // Función para enviar a la Nube
-        window.send = () => {
-            if(cmd.value.trim() !== "") {
-                push(logRef, { texto: cmd.value, fecha: Date.now() });
-                cmd.value = "";
-            }
-        };
+            if(ana === "") { alert("¡Mete el análisis, socio!"); return; }
 
-        // Escuchar la Nube en tiempo real
-        onChildAdded(logRef, (snapshot) => {
-            const data = snapshot.val();
-            log.innerHTML += `<div style="color:#58a6ff; margin-bottom: 10px; white-space: pre-wrap;">> ${data.texto}</div>`;
-            log.scrollTop = log.scrollHeight;
-        });
-
-        btn.addEventListener("click", send);
-        cmd.addEventListener("keypress", (e) => { if (e.key === "Enter") send(); });
-        window.borrar = () => { log.innerHTML = `<div style="color: #3fb950;">> MEMORIA LIMPIA...</div>`; };
+            database.ref('pronosticos').push({
+                deporte: dep,
+                analisis: ana,
+                fecha: new Date().toLocaleString()
+            }).then(() => {
+                alert("¡Caramelo inyectado con éxito!");
+                document.getElementById('analisis').value = "";
+            }).catch((error) => {
+                alert("Error: " + error.message);
+            });
+        }
     </script>
 </body>
 </html>
