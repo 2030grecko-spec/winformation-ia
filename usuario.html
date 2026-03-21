@@ -3,250 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - El Búnker</title>
+    <title>Winformation IA - El Portal</title>
     <style>
-        body { 
-            background-color: #000; 
-            color: #d4af37; /* Mantenemos el dorado para textos y Matrix */
-            font-family: 'Courier New', Courier, monospace; 
-            margin: 0; 
-            overflow: hidden; 
-        }
-        
-        /* FONDO MATRIX */
-        #matrix { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            z-index: 1; 
-            opacity: 0.20; /* Un poco más visible para que destaque */
+        body { background-color: #000; color: #d4af37; font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; }
+
+        /* ESCENA DEL PORTAL */
+        #escena-portal {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh; width: 100%; transition: all 1.5s ease-in-out;
+            position: relative; /* Para las letras de Matrix */
         }
 
-        /* PANTALLA DE REGISTRO */
-        #pantalla-registro { 
-            position: fixed; 
-            width: 100%; 
-            height: 100%; 
-            background: #000; 
-            display: none; 
-            justify-content: center; 
-            align-items: center; 
-            z-index: 999; 
-        }
-        .form-box { 
-            background: rgba(0, 0, 0, 0.9); /* Fondo negro puro */
-            padding: 40px; 
-            border-radius: 20px; 
-            border: 2px solid #d4af37; /* Borde simple dorado para el formulario */
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); 
-            text-align: center; 
-            z-index: 1000;
-        }
-        .form-box h2 { letter-spacing: 3px; margin-bottom: 20px; text-transform: uppercase;}
-        .form-box input { 
-            display: block; 
-            margin: 15px auto; 
-            padding: 15px; 
-            width: 250px; 
-            background: #000; 
-            border: 1px solid #d4af37; 
-            color: #fff; 
-            border-radius: 10px; 
-            text-align: center;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        .form-box button { 
-            margin-top: 20px; 
-            padding: 15px 40px; 
-            background: #d4af37; 
-            color: #000; 
-            border: none; 
-            border-radius: 25px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            text-transform: uppercase;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        /* ESCENA CAMILA (MATRIX) */
-        #escena-portal { 
-            position: relative; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            z-index: 2; 
-        }
-        
-        /* ELIMINADO EL ARO DE LUZ */
+        /* CAMILA Y EL PORTAL DE FUEGO */
         .contenedor-camila {
-            width: 260px; 
-            height: 260px; 
+            position: relative; width: 280px; height: 280px;
             border-radius: 50%; 
+            /* El aro de fuego inicial con la duración */
+            border: 6px solid #d4af37;
+            box-shadow: 0 0 60px #ffcc00, inset 0 0 40px #d4af37;
             overflow: hidden; 
-            transition: 1.5s; 
-            position: relative;
-            /* Ya no hay bordes ni box-shadows de fuego */
-        }
-        .camila-img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
+            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        /* ANIMACIÓN HABLAR (Gesticulación) */
-        .hablando { animation: hablar 0.2s infinite alternate; }
-        @keyframes hablar { 
-            from { transform: scale(1); } 
-            to { transform: scale(1.04); filter: brightness(1.1); } 
+        .camila-img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: 0.5s;
         }
 
-        .btn-entrar { 
-            background: transparent; /* Fondo transparente */
-            color: #d4af37; /* Texto dorado */
-            padding: 18px 55px; 
-            border: 2px solid #d4af37; /* Borde dorado simple */
-            border-radius: 50px; 
-            font-weight: 900; 
-            cursor: pointer; 
-            margin-top: 50px; 
-            text-transform: uppercase;
-            font-family: 'Courier New', Courier, monospace;
-            z-index: 5;
-            transition: 0.3s;
+        /* ANIMACIÓN: CAMILA HABLANDO (Gesticulación Css) */
+        @keyframes gesticular {
+            0%, 100% { clip-path: ellipse(100% 100% at 50% 50%); }
+            50% { clip-path: ellipse(98% 95% at 50% 52%); } /* Simula apertura leve */
         }
-        .btn-entrar:hover {
-            background: #d4af37;
-            color: #000;
-            box-shadow: 0 0 20px #d4af37;
+        .hablando { animation: gesticular 0.2s infinite; transform: scale(1.02); }
+
+        /* ANIMACIÓN: PICARDÍA (El guiño/pestañeo) */
+        @keyframes guino {
+            0%, 90%, 100% { filter: brightness(1); }
+            95% { filter: brightness(1.5) contrast(1.2); transform: scale(1.05) rotate(1deg); }
         }
+        .picardia { animation: guino 4s infinite; }
+
+        /* EFECTO CUANDO EL PORTAL DESAPARECE */
+        .portal-desvanecido {
+            border: 2px solid #d4af37; /* Borde simple dorado */
+            box-shadow: 0 0 15px #d4af37; /* Sombra sutil */
+        }
+
+        /* EL FONDO MATRIX QUE APARECE (OCULTO INICIALMENTE) */
+        #matrix-datos { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            opacity: 0; transition: opacity 2s; z-index: 1; /* Detrás de Camila */
+        }
+
+        /* DISEÑO DE LA BURBUJA GRANDE */
+        .burbuja-maestra {
+            position: fixed; top: 20px; right: 20px;
+            width: 150px; height: 150px; border-radius: 50%;
+            border: 4px solid #d4af37; box-shadow: 0 0 30px #d4af37;
+            z-index: 9999; cursor: grab; object-fit: cover;
+        }
+
+        .btn-entrar { background: #d4af37; color: #000; padding: 20px 60px; border: none; border-radius: 50px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 50px; box-shadow: 0 0 20px #d4af37; z-index: 10; }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix"></canvas>
-
-    <div id="pantalla-registro">
-        <div class="form-box">
-            <h2>IDENTIFICACIÓN</h2>
-            <input id="nombre" placeholder="Nombre y Apellido">
-            <input id="correo" placeholder="Correo Electrónico">
-            <button onclick="guardarUsuario()">VINCULAR CUENTA</button>
-        </div>
-    </div>
-
     <div id="escena-portal">
-        <div id="portal" class="contenedor-camila">
-            <img id="camila-img" src="CamilaDelfuro.jpg" class="camila-img" alt="Camila">
+        <div id="portal" class="contenedor-camila picardia">
+            <img id="camila-img" src="CamilaProfesional.jpg" class="camila-img" alt="Camila">
         </div>
-        <h1 id="txt-win" style="letter-spacing: 8px; margin-top: 30px; text-transform: uppercase; text-shadow: 0 0 5px #d4af37;">WINFORMATION IA</h1>
-        <button id="btn-viaje" class="btn-entrar" onclick="iniciarViaje()">INICIAR PROTOCOLO</button>
+        
+        <canvas id="matrix-datos"></canvas>
+
+        <div id="interfaz">
+            <h1 style="letter-spacing: 6px; margin-top: 30px;">WINFORMATION IA</h1>
+            <button class="btn-entrar" onclick="iniciarImpacto()">SINCRONIZAR CON CAMILA</button>
+        </div>
     </div>
 
     <script>
-        // EFECTO MATRIX (Dorado)
-        const canvas = document.getElementById("matrix");
-        const ctx = canvas.getContext("2d");
-        canvas.height = window.innerHeight; canvas.width = window.innerWidth;
-        
-        // Letras personalizadas para el efecto
-        let letras = "01WINFORMATIONIA"; 
-        letras = letras.split("");
-        
-        let fontSize = 16; /* Un poco más grandes */
-        let columns = canvas.width / fontSize;
-        let drops = []; 
-        for (let x = 0; x < columns; x++) drops[x] = 1;
-        
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0,0,0,0.05)"; 
-            ctx.fillRect(0,0,canvas.width,canvas.height);
+        function iniciarImpacto() {
+            const nombre = localStorage.getItem('nombre_cazador') || "Inversor";
+            const camila = document.getElementById('camila-img');
+            const portal = document.getElementById('portal');
+            const interfaz = document.getElementById('interfaz');
+            const matrix = document.getElementById('matrix-datos');
+
+            interfaz.style.opacity = '0';
+            portal.style.transform = 'scale(1.3)'; // Zoom de impacto
+
+            const mensaje = "Hola " + nombre + ". Soy Camila. He cruzado el tiempo para mostrarte el camino de los números. No estamos aquí para apostar, estamos aquí para dominar la inversión profesional. Escucha con atención, porque el búnker de inteligencia está sincronizando los datos.";
             
-            ctx.fillStyle = "#d4af37"; /* Matrix Dorado */
-            ctx.font = fontSize + "px monospace";
-            
-            for (let i = 0; i < drops.length; i++) {
-                let text = letras[Math.floor(Math.random() * letras.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            const voz = new SpeechSynthesisUtterance(mensaje);
+            voz.lang = 'es-ES';
+            voz.rate = 0.85;
+
+            // CUANDO EMPIEZA A HABLAR: Gesticulación y Portal Activo
+            voz.onstart = () => { camila.classList.add('hablando'); };
+
+            // TEMPORIZADOR DEL ARO DE FUEGO: Desaparece tras 5 segundos (ejemplo)
+            setTimeout(() => {
+                portal.classList.remove('picardia'); // Detener el guiño inicial
+                portal.classList.add('portal-desvanecido'); // Borde simple y sombra sutil
+                matrix.style.opacity = '0.3'; // Aparece el fondo Matrix suave
+            }, 5000); // 5000 milisegundos = 5 segundos
+
+            // CUANDO TERMINA EL DISCURSO: Camila se vuelve burbuja
+            voz.onend = () => {
+                camila.classList.remove('hablando');
+                portal.classList.remove('contenedor-camila', 'portal-desvanecido');
+                portal.classList.add('burbuja-maestra');
+                document.getElementById('escena-portal').style.background = "transparent";
+                interfaz.style.display = 'none';
                 
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
-        }
-        setInterval(drawMatrix, 35); /* Velocidad ajustada */
-
-        // LÓGICA DE USUARIO Y REGISTRO ÚNICO
-        window.onload = function() {
-            if (!localStorage.getItem("nombre_cazador")) {
-                // Si es nuevo, mostramos registro
-                document.getElementById("pantalla-registro").style.display = "flex";
-                document.getElementById("escena-portal").style.display = "none";
-            } else {
-                // Si ya existe, vamos directo a la escena
-                document.getElementById("pantalla-registro").style.display = "none";
-                document.getElementById("escena-portal").style.display = "flex";
-            }
-        };
-
-        function guardarUsuario() {
-            const nombre = document.getElementById('nombre').value;
-            const correo = document.getElementById('correo').value;
-            
-            if (!nombre || !correo) { 
-                alert("Camila requiere tu identificación para vincular la cuenta."); 
-                return; 
-            }
-            
-            // Guardamos datos localmente
-            localStorage.setItem("nombre_cazador", nombre);
-            localStorage.setItem("correo_cazador", correo);
-            
-            // Cambiamos de pantalla
-            document.getElementById("pantalla-registro").style.display = "none";
-            document.getElementById("escena-portal").style.display = "flex";
-        }
-
-        // PROTOCOLO DE INICIO (El discurso)
-        function iniciarViaje() {
-            const nombre = localStorage.getItem("nombre_cazador") || "Inversor";
-            const camila = document.getElementById("camila-img");
-            const btn = document.getElementById("btn-viaje");
-
-            btn.style.display = "none"; /* Ocultamos botón */
-            
-            // Efecto de enfoque en Camila
-            camila.parentElement.style.transform = "scale(1.2)"; 
-            camila.classList.add("hablando"); /* Empieza a gesticular */
-
-            // El Guion Profesional
-            const discurso = new SpeechSynthesisUtterance();
-            discurso.text = `Hola ${nombre}... Bienvenido a Winformation IA... Esto no es una aplicación más... Esto es conocimiento... Esto es poder... Mi nombre es Camila... y he estado esperando tu llegada... Este es un espacio para ganadores... Recuerda esto ${nombre}... Winformation IA no solo te informa... te transforma... Bienvenido al búnker...`;
-            discurso.lang = 'es-ES';
-            discurso.rate = 0.85; /* Velocidad elegante */
-            discurso.pitch = 1.0; /* Tono natural */
-
-            // Selección de voz (intenta buscar una buena voz en español)
-            const voces = speechSynthesis.getVoices();
-            const vozMejor = voces.find(v => v.lang.includes('es') && (v.name.includes('Google') || v.name.includes('Premium'))) || voces.find(v => v.lang.includes('es'));
-            
-            if (vozMejor) {
-                discurso.voice = vozMejor;
-            }
-
-            // Al terminar de hablar
-            discurso.onend = () => {
-                camila.classList.remove("hablando");
-                // Aquí es donde iría la transición a la siguiente parte (cursos/datos)
-                alert("Protocolo completado. Accediendo al núcleo de inteligencia..."); 
+                alert("Sincronización completada. Accediendo al núcleo de inversión."); 
             };
 
-            window.speechSynthesis.speak(discurso);
+            window.speechSynthesis.speak(voz);
+
+            // FUNCIÓN DEL EFECTO MATRIX (Dorado)
+            iniciarMatrix(matrix);
         }
 
-        // Cargar voces para navegadores que lo necesitan
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = speechSynthesis.getVoices;
+        // --- LÓGICA DE MATRIX DORADO ---
+        function iniciarMatrix(canvas) {
+            const ctx = canvas.getContext("2d");
+            canvas.height = window.innerHeight; canvas.width = window.innerWidth;
+            let letras = "01WINFORMATION"; letras = letras.split("");
+            let fontSize = 14; let columns = canvas.width / fontSize;
+            let drops = []; for (let x = 0; x < columns; x++) drops[x] = 1;
+
+            function draw() {
+                ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,canvas.width,canvas.height);
+                ctx.fillStyle = "#d4af37"; ctx.font = fontSize + "px monospace";
+                for (let i = 0; i < drops.length; i++) {
+                    let text = letras[Math.floor(Math.random() * letras.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 33);
         }
     </script>
 </body>
