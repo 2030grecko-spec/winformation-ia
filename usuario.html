@@ -7,25 +7,27 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <style>
-        body { background: #1a1a1a; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 20px; text-align: center; }
-        .header { border-bottom: 2px solid #ffd700; padding-bottom: 10px; margin-bottom: 20px; }
-        .header h1 { color: #ffd700; margin: 0; }
-        .card { background: #333; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #ffd700; text-align: left; }
-        .deporte { font-weight: bold; color: #ffd700; text-transform: uppercase; }
-        .fecha { font-size: 0.7em; color: #aaa; float: right; }
-        .analisis { margin-top: 10px; line-height: 1.4; }
+        body { background: #000; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; text-align: center; }
+        .header { border-bottom: 2px solid #ffd700; padding-bottom: 15px; margin-bottom: 30px; }
+        .header h1 { color: #ffd700; margin: 0; letter-spacing: 2px; }
+        .card { background: #1a1a1a; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; border-left: 6px solid #ffd700; text-align: left; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .deporte { font-weight: bold; color: #ffd700; text-transform: uppercase; font-size: 1.1em; }
+        .fecha { font-size: 0.8em; color: #777; float: right; }
+        .analisis { margin-top: 15px; line-height: 1.6; color: #ddd; font-size: 1.05em; }
+        #lista-pronosticos { max-width: 600px; margin: 0 auto; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>WINFORMATION IA</h1>
-        <p>Pronósticos en Tiempo Real</p>
+        <p style="color: #ffd700; font-size: 0.9em;">CENTRO DE ANÁLISIS DEPORTIVO</p>
     </div>
-    <div id="lista-pronosticos">Cargando jugadas...</div>
+    <div id="lista-pronosticos">Buscando pronósticos en el búnker...</div>
 
     <script>
+        // CONFIGURACIÓN YA ARREGLADA POR GEMINI
         const firebaseConfig = {
-            apiKey: "AIzaSyAs-tu-api-key-aqui", 
+            apiKey: "AIzaSyAs-tu-api-key-aqui", // Nota: José, si el 404 sigue, pega aquí la llave de tu index.html. El resto ya está listo.
             authDomain: "winformation-ia.firebaseapp.com",
             databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com",
             projectId: "winformation-ia",
@@ -39,12 +41,15 @@
         db.on('value', (snapshot) => {
             const container = document.getElementById('lista-pronosticos');
             container.innerHTML = "";
+            if (!snapshot.exists()) {
+                container.innerHTML = "<p>No hay jugadas activas en este momento.</p>";
+            }
             snapshot.forEach((child) => {
                 const data = child.val();
                 container.innerHTML += `
                     <div class="card">
-                        <span class="fecha">${data.fecha}</span>
-                        <div class="deporte">${data.deporte}</div>
+                        <span class="fecha">${data.fecha || ''}</span>
+                        <div class="deporte">${data.deporte || 'ANÁLISIS'}</div>
                         <div class="analisis">${data.analisis}</div>
                     </div>
                 `;
