@@ -3,140 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - El Portal</title>
+    <title>Winformation IA - El Búnker</title>
     <style>
-        body { background-color: #000; color: #d4af37; font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; }
+        /* ATMÓSFERA OSCURA PROFESIONAL */
+        body { 
+            background: radial-gradient(circle at center, #111 0%, #000 100%); 
+            color: #d4af37; font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; 
+        }
 
-        /* ESCENA DEL PORTAL */
+        /* MATRIX DORADO (FONDO) */
+        #matrix { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0; transition: opacity 3s; }
+
         #escena-portal {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; width: 100%; transition: all 1.5s ease-in-out;
-            position: relative; /* Para las letras de Matrix */
+            height: 100vh; width: 100%; z-index: 2; position: relative;
         }
 
-        /* CAMILA Y EL PORTAL DE FUEGO */
-        .contenedor-camila {
+        /* ARO DE FUEGO CINEMATOGRÁFICO */
+        .contenedor-portal {
             position: relative; width: 280px; height: 280px;
-            border-radius: 50%; 
-            /* El aro de fuego inicial con la duración */
-            border: 6px solid #d4af37;
-            box-shadow: 0 0 60px #ffcc00, inset 0 0 40px #d4af37;
-            overflow: hidden; 
-            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 1.5s;
         }
 
+        /* Efecto de energía giratoria */
+        .contenedor-portal::before {
+            content: ""; position: absolute; width: 310px; height: 310px;
+            border-radius: 50%;
+            background: conic-gradient(#ffcc00, #d4af37, #ff6600, #ffcc00);
+            filter: blur(12px); animation: girar 4s linear infinite;
+            z-index: -1; transition: opacity 4s;
+        }
+
+        @keyframes girar { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* IMAGEN DE CAMILA (RESPIRANDO) */
         .camila-img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: 0.5s;
+            width: 270px; height: 270px; border-radius: 50%;
+            object-fit: cover; border: 2px solid rgba(212, 175, 55, 0.3);
+            transition: 1.5s;
         }
 
-        /* ANIMACIÓN: CAMILA HABLANDO (Gesticulación Css) */
-        @keyframes gesticular {
-            0%, 100% { clip-path: ellipse(100% 100% at 50% 50%); }
-            50% { clip-path: ellipse(98% 95% at 50% 52%); } /* Simula apertura leve */
-        }
-        .hablando { animation: gesticular 0.2s infinite; transform: scale(1.02); }
+        /* ANIMACIONES DE CINE */
+        .cinematic-entry { animation: entradaCine 2s ease-out forwards; }
+        .respiracion { animation: respirar 4s infinite ease-in-out; }
 
-        /* ANIMACIÓN: PICARDÍA (El guiño/pestañeo) */
-        @keyframes guino {
-            0%, 90%, 100% { filter: brightness(1); }
-            95% { filter: brightness(1.5) contrast(1.2); transform: scale(1.05) rotate(1deg); }
-        }
-        .picardia { animation: guino 4s infinite; }
-
-        /* EFECTO CUANDO EL PORTAL DESAPARECE */
-        .portal-desvanecido {
-            border: 2px solid #d4af37; /* Borde simple dorado */
-            box-shadow: 0 0 15px #d4af37; /* Sombra sutil */
+        @keyframes entradaCine {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        /* EL FONDO MATRIX QUE APARECE (OCULTO INICIALMENTE) */
-        #matrix-datos { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            opacity: 0; transition: opacity 2s; z-index: 1; /* Detrás de Camila */
+        @keyframes respirar {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.04); filter: brightness(1.3); }
         }
 
-        /* DISEÑO DE LA BURBUJA GRANDE */
-        .burbuja-maestra {
-            position: fixed; top: 20px; right: 20px;
-            width: 150px; height: 150px; border-radius: 50%;
-            border: 4px solid #d4af37; box-shadow: 0 0 30px #d4af37;
-            z-index: 9999; cursor: grab; object-fit: cover;
-        }
+        .hablando { animation: vibrar 0.1s infinite; }
+        @keyframes vibrar { 0% { transform: rotate(0deg); } 50% { transform: rotate(0.5deg); } 100% { transform: rotate(-0.5deg); } }
 
-        .btn-entrar { background: #d4af37; color: #000; padding: 20px 60px; border: none; border-radius: 50px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 50px; box-shadow: 0 0 20px #d4af37; z-index: 10; }
+        /* CUANDO EL ARO DESAPARECE */
+        .aro-extinto::before { opacity: 0 !important; }
+
+        /* BOTÓN DE PODER */
+        .btn-vinculo { 
+            background: #d4af37; color: #000; padding: 20px 60px; border: none; 
+            border-radius: 50px; font-weight: 900; cursor: pointer; margin-top: 50px;
+            box-shadow: 0 0 25px #d4af37; z-index: 5; text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .btn-vinculo:hover { transform: scale(1.1); box-shadow: 0 0 40px #ffcc00; }
     </style>
 </head>
 <body>
 
+    <canvas id="matrix"></canvas>
+
     <div id="escena-portal">
-        <div id="portal" class="contenedor-camila picardia">
-            <img id="camila-img" src="CamilaProfesional.jpg" class="camila-img" alt="Camila">
+        <div id="portal-wrapper" class="contenedor-portal cinematic-entry">
+            <img id="camila-img" src="1844.png" class="camila-img respiracion" alt="Camila">
         </div>
         
-        <canvas id="matrix-datos"></canvas>
-
-        <div id="interfaz">
-            <h1 style="letter-spacing: 6px; margin-top: 30px;">WINFORMATION IA</h1>
-            <button class="btn-entrar" onclick="iniciarImpacto()">SINCRONIZAR CON CAMILA</button>
-        </div>
+        <h1 style="letter-spacing: 8px; margin-top: 30px; text-shadow: 0 0 15px #d4af37;">WINFORMATION IA</h1>
+        
+        <button id="btn-protocolo" class="btn-vinculo" onclick="activarBunker()">INICIAR PROTOCOLO</button>
     </div>
 
     <script>
-        function iniciarImpacto() {
-            const nombre = localStorage.getItem('nombre_cazador') || "Inversor";
+        function activarBunker() {
+            const wrapper = document.getElementById('portal-wrapper');
             const camila = document.getElementById('camila-img');
-            const portal = document.getElementById('portal');
-            const interfaz = document.getElementById('interfaz');
-            const matrix = document.getElementById('matrix-datos');
+            const btn = document.getElementById('btn-protocolo');
+            const mtx = document.getElementById('matrix');
+            const nombre = localStorage.getItem('nombre_cazador') || "Inversor";
 
-            interfaz.style.opacity = '0';
-            portal.style.transform = 'scale(1.3)'; // Zoom de impacto
-
-            const mensaje = "Hola " + nombre + ". Soy Camila. He cruzado el tiempo para mostrarte el camino de los números. No estamos aquí para apostar, estamos aquí para dominar la inversión profesional. Escucha con atención, porque el búnker de inteligencia está sincronizando los datos.";
+            btn.style.opacity = '0';
+            setTimeout(() => btn.style.display = 'none', 500);
             
-            const voz = new SpeechSynthesisUtterance(mensaje);
-            voz.lang = 'es-ES';
-            voz.rate = 0.85;
+            wrapper.style.transform = 'scale(1.25)';
+            camila.classList.add('hablando');
 
-            // CUANDO EMPIEZA A HABLAR: Gesticulación y Portal Activo
-            voz.onstart = () => { camila.classList.add('hablando'); };
+            // DISCURSO CON PAUSAS PARA DRAMATISMO
+            const discurso = new SpeechSynthesisUtterance();
+            discurso.text = `Hola ${nombre}... Bienvenido al búnker de Winformation IA... Mi nombre es Camila... He cruzado el tiempo para ser tu guía... Prepárate... porque aquí no jugamos... aquí dominamos los datos...`;
+            discurso.lang = 'es-ES';
+            discurso.rate = 0.8;
 
-            // TEMPORIZADOR DEL ARO DE FUEGO: Desaparece tras 5 segundos (ejemplo)
+            window.speechSynthesis.speak(discurso);
+
+            // DESVANECER EL ARO Y METER MATRIX (5 SEGUNDOS)
             setTimeout(() => {
-                portal.classList.remove('picardia'); // Detener el guiño inicial
-                portal.classList.add('portal-desvanecido'); // Borde simple y sombra sutil
-                matrix.style.opacity = '0.3'; // Aparece el fondo Matrix suave
-            }, 5000); // 5000 milisegundos = 5 segundos
+                wrapper.classList.add('aro-extinto');
+                mtx.style.opacity = '0.2';
+                iniciarMatrix();
+            }, 5000);
 
-            // CUANDO TERMINA EL DISCURSO: Camila se vuelve burbuja
-            voz.onend = () => {
+            discurso.onend = () => {
                 camila.classList.remove('hablando');
-                portal.classList.remove('contenedor-camila', 'portal-desvanecido');
-                portal.classList.add('burbuja-maestra');
-                document.getElementById('escena-portal').style.background = "transparent";
-                interfaz.style.display = 'none';
-                
-                alert("Sincronización completada. Accediendo al núcleo de inversión."); 
+                camila.style.filter = "drop-shadow(0 0 20px #d4af37)";
+                console.log("Protocolo de voz finalizado.");
             };
-
-            window.speechSynthesis.speak(voz);
-
-            // FUNCIÓN DEL EFECTO MATRIX (Dorado)
-            iniciarMatrix(matrix);
         }
 
-        // --- LÓGICA DE MATRIX DORADO ---
-        function iniciarMatrix(canvas) {
+        // LÓGICA MATRIX DORADO
+        function iniciarMatrix() {
+            const canvas = document.getElementById("matrix");
             const ctx = canvas.getContext("2d");
             canvas.height = window.innerHeight; canvas.width = window.innerWidth;
-            let letras = "01WINFORMATION"; letras = letras.split("");
-            let fontSize = 14; let columns = canvas.width / fontSize;
+            let letras = "01WINFORMATIONIA"; letras = letras.split("");
+            let fontSize = 15; let columns = canvas.width / fontSize;
             let drops = []; for (let x = 0; x < columns; x++) drops[x] = 1;
 
             function draw() {
                 ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,canvas.width,canvas.height);
-                ctx.fillStyle = "#d4af37"; ctx.font = fontSize + "px monospace";
+                ctx.fillStyle = "#d4af37"; 
+                ctx.font = fontSize + "px monospace";
                 for (let i = 0; i < drops.length; i++) {
                     let text = letras[Math.floor(Math.random() * letras.length)];
                     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -144,7 +144,7 @@
                     drops[i]++;
                 }
             }
-            setInterval(draw, 33);
+            setInterval(draw, 35);
         }
     </script>
 </body>
