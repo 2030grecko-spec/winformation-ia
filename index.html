@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Registro</title>
+    <title>Winformation IA - Portal de Inteligencia</title>
     <style>
         body {
             background-color: #000;
-            color: #d4af37; /* Dorado elegante */
+            color: #d4af37; /* Dorado Élite */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
@@ -15,125 +15,118 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            overflow: hidden; /* Evita scrolls innecesarios */
+            overflow: hidden;
         }
 
-        /* Contenedor con Vida para Camila */
+        /* El Búnker de Camila con Vida */
         .camila-container {
-            width: 150px;
-            height: 150px;
+            width: 160px;
+            height: 160px;
             border: 3px solid #d4af37;
             border-radius: 50%;
             overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            margin-bottom: 25px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
             
-            /* Animación de Latido (Pulse) */
-            animation: pulse-gold 3s infinite ease-in-out, fadeIn 1.5s ease-out;
-            position: relative; /* Para el efecto de parpadeo */
+            /* Animación de Latido de Inteligencia */
+            animation: pulse-aura 3s infinite ease-in-out, entrance 1.2s ease-out;
+            position: relative;
         }
 
         .camila-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
         }
 
-        /* Simulación de Parpadeo (Opcional, requiere una imagen específica) */
-        /* .camila-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            opacity: 0;
-            animation: blink 5s infinite;
-        } */
-
-        /* Definición de las Animaciones (Keyframes) */
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.9); }
-            100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+        /* Animaciones */
+        @keyframes pulse-aura {
+            0% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); transform: scale(1); }
+            50% { box-shadow: 0 0 35px rgba(212, 175, 55, 0.8); transform: scale(1.02); }
+            100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); transform: scale(1); }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes entrance {
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* Estilo para el resto de la página */
-        h1 { font-size: 1.5rem; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        h1 { 
+            font-size: 1.4rem; 
+            margin-bottom: 35px; 
+            letter-spacing: 4px; 
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            text-transform: uppercase;
+        }
 
-        .form-group {
-            width: 80%;
-            max-width: 300px;
+        .login-box {
+            width: 85%;
+            max-width: 320px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            animation: fadeIn 2s ease-out; /* Entrada suave para el formulario */
+            gap: 18px;
+            animation: entrance 1.5s ease-out;
         }
 
         input {
-            background: #1a1a1a;
+            background: #111;
             border: 1px solid #d4af37;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px;
+            border-radius: 10px;
             color: #fff;
             outline: none;
             font-size: 1rem;
+            transition: 0.3s;
         }
 
-        input:focus { border-color: #fff; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+        input:focus { border-color: #fff; box-shadow: 0 0 12px rgba(212, 175, 55, 0.6); }
 
         button {
-            background: #d4af37;
+            background: linear-gradient(135deg, #d4af37, #f2d06b);
             color: #000;
             border: none;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: bold;
+            padding: 16px;
+            border-radius: 10px;
+            font-weight: 800;
             cursor: pointer;
-            margin-top: 10px;
-            font-size: 1.1rem;
+            margin-top: 15px;
+            font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: 0.4s;
         }
 
-        button:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(212, 175, 55, 0.5); }
+        button:hover { 
+            background: #fff; 
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.6); 
+        }
     </style>
 </head>
 <body>
 
     <div class="camila-container">
-        <img src="CamilaDelfuro" alt="Camila AI">
+        <img src="camilaDelfuro.jpg" alt="Camila AI">
     </div>
 
-    <h1>WINFORMATION IA</h1>
+    <h1>Winformation IA</h1>
 
-    <div class="form-group">
-        <input type="text" id="nombre" placeholder="Nombre completo">
-        <input type="email" id="email" placeholder="Correo electrónico">
-        <input type="password" id="pass" placeholder="Contraseña">
-        <button onclick="entrarAlBunker()">ENTRAR AL BÚNKER</button>
+    <div class="login-box">
+        <input type="text" id="user_name" placeholder="Nombre de Cazador">
+        <input type="email" id="user_email" placeholder="Correo Electrónico">
+        <input type="password" id="user_pass" placeholder="Contraseña">
+        <button onclick="acceder()">Entrar al Búnker</button>
     </div>
 
     <script>
-        // Función placeholder para cuando el usuario hace clic
-        function entrarAlBunker() {
-            const nombre = document.getElementById('nombre').value;
-            if (nombre) {
-                alert('¡Bienvenido, ' + nombre + '! Camila te está esperando.');
-                // Aquí iría el código de registro en Firebase que hablaremos después.
+        function acceder() {
+            const name = document.getElementById('user_name').value;
+            if(name) {
+                alert('Sincronizando con Camila... Bienvenido, ' + name);
+                // Aquí conectaremos luego con tu Firebase para guardar al usuario
             } else {
-                alert('Por favor, ingresa tu nombre para continuar.');
+                alert('Camila necesita saber quién eres. Ingresa tu nombre.');
             }
         }
     </script>
