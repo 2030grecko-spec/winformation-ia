@@ -7,7 +7,7 @@
     <style>
         body {
             background-color: #000;
-            color: #d4af37; /* Dorado */
+            color: #d4af37; /* Dorado elegante */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
@@ -15,8 +15,10 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden; /* Evita scrolls innecesarios */
         }
 
+        /* Contenedor con Vida para Camila */
         .camila-container {
             width: 150px;
             height: 150px;
@@ -25,15 +27,48 @@
             overflow: hidden;
             margin-bottom: 20px;
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            
+            /* Animación de Latido (Pulse) */
+            animation: pulse-gold 3s infinite ease-in-out, fadeIn 1.5s ease-out;
+            position: relative; /* Para el efecto de parpadeo */
         }
 
         .camila-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
-        h1 { font-size: 1.5rem; margin-bottom: 30px; letter-spacing: 2px; }
+        /* Simulación de Parpadeo (Opcional, requiere una imagen específica) */
+        /* .camila-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            opacity: 0;
+            animation: blink 5s infinite;
+        } */
+
+        /* Definición de las Animaciones (Keyframes) */
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.9); }
+            100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilo para el resto de la página */
+        h1 { font-size: 1.5rem; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
 
         .form-group {
             width: 80%;
@@ -41,6 +76,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            animation: fadeIn 2s ease-out; /* Entrada suave para el formulario */
         }
 
         input {
@@ -50,7 +86,10 @@
             border-radius: 8px;
             color: #fff;
             outline: none;
+            font-size: 1rem;
         }
+
+        input:focus { border-color: #fff; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 
         button {
             background: #d4af37;
@@ -61,16 +100,20 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
         }
 
-        button:hover { background: #fff; }
+        button:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(212, 175, 55, 0.5); }
     </style>
 </head>
 <body>
 
     <div class="camila-container">
-        <img src="camila.jpg" alt="Camila AI">
+        <img src="CamilaDelfuro" alt="Camila AI">
     </div>
 
     <h1>WINFORMATION IA</h1>
@@ -79,8 +122,21 @@
         <input type="text" id="nombre" placeholder="Nombre completo">
         <input type="email" id="email" placeholder="Correo electrónico">
         <input type="password" id="pass" placeholder="Contraseña">
-        <button onclick="registrar()">ENTRAR AL BÚNKER</button>
+        <button onclick="entrarAlBunker()">ENTRAR AL BÚNKER</button>
     </div>
+
+    <script>
+        // Función placeholder para cuando el usuario hace clic
+        function entrarAlBunker() {
+            const nombre = document.getElementById('nombre').value;
+            if (nombre) {
+                alert('¡Bienvenido, ' + nombre + '! Camila te está esperando.');
+                // Aquí iría el código de registro en Firebase que hablaremos después.
+            } else {
+                alert('Por favor, ingresa tu nombre para continuar.');
+            }
+        }
+    </script>
 
 </body>
 </html>
