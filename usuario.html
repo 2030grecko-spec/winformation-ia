@@ -3,138 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - El Portal</title>
+    <title>Winformation IA - Camila Viva</title>
     <style>
         body { background-color: #000; color: #d4af37; font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; }
 
-        /* ESCENA DEL PORTAL */
         #escena-portal {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; width: 100%; background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
-            transition: all 2s ease-in-out;
+            height: 100vh; width: 100%; background: #000;
         }
 
-        /* CAMILA DENTRO DEL ARO DE FUEGO */
-        .camila-portal {
-            width: 250px; height: 250px; border-radius: 50%;
-            border: 6px solid #d4af37;
-            box-shadow: 0 0 50px #ffcc00, inset 0 0 30px #ff9900;
-            object-fit: cover;
-            transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-            filter: brightness(1.2);
-            z-index: 10;
+        /* EL PORTAL DE FUEGO */
+        .contenedor-camila {
+            position: relative; width: 260px; height: 260px;
+            border-radius: 50%; border: 6px solid #d4af37;
+            box-shadow: 0 0 60px #ffcc00, inset 0 0 40px #d4af37;
+            overflow: hidden; transition: 1.5s;
         }
 
-        /* Animación de Fuego Dorado Alrededor */
-        .fuego-dorado {
-            animation: pulso-fuego 2s infinite alternate, girar-portal 10s linear infinite;
+        .camila-img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: 0.5s;
         }
 
-        @keyframes pulso-fuego {
-            0% { box-shadow: 0 0 40px #d4af37, inset 0 0 20px #ffcc00; }
-            100% { box-shadow: 0 0 80px #ff9900, inset 0 0 50px #d4af37; transform: scale(1.05); }
+        /* ANIMACIÓN: CAMILA HABLANDO (Mueve la zona de la boca) */
+        @keyframes gesticular {
+            0%, 100% { clip-path: ellipse(100% 100% at 50% 50%); }
+            50% { clip-path: ellipse(98% 95% at 50% 52%); } /* Simula apertura leve */
         }
+        .hablando { animation: gesticular 0.2s infinite; transform: scale(1.02); }
 
-        /* EFECTO DE ACERCAMIENTO (ZOOM) */
-        .zoom-impacto { transform: scale(1.4); filter: brightness(1.4); }
+        /* ANIMACIÓN: PICARDÍA (El guiño/pestañeo) */
+        @keyframes guino {
+            0%, 90%, 100% { filter: brightness(1); }
+            95% { filter: brightness(1.5) contrast(1.2); transform: scale(1.05) rotate(1deg); }
+        }
+        .picardia { animation: guino 4s infinite; }
 
-        /* LA BURBUJA GRANDE Y MOVIBLE */
+        /* BURBUJA MAESTRA (Grande y con el Aro) */
         .burbuja-maestra {
             position: fixed; top: 20px; right: 20px;
-            width: 140px; height: 140px; /* Tamaño grande, con presencia */
-            border-radius: 50%; border: 4px solid #d4af37;
-            box-shadow: 0 0 30px #d4af37; z-index: 9999;
-            cursor: grab; transition: transform 0.3s;
-            object-fit: cover;
+            width: 150px; height: 150px; border-radius: 50%;
+            border: 4px solid #d4af37; box-shadow: 0 0 30px #d4af37;
+            z-index: 9999; cursor: grab; object-fit: cover;
         }
 
-        #bunker-datos { display: none; padding: 20px; opacity: 0; transition: 2s; color: #fff; }
         .btn-inicio { background: #d4af37; color: #000; padding: 20px 60px; border: none; border-radius: 50px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 50px; box-shadow: 0 0 20px #d4af37; }
     </style>
 </head>
 <body>
 
     <div id="escena-portal">
-        <img id="camila-activa" src="CamilaDelfuro.jpg" class="camila-portal fuego-dorado" alt="Camila">
+        <div id="portal" class="contenedor-camila picardia">
+            <img id="camila-img" src="CamilaDelfuro.jpg" class="camila-img" alt="Camila">
+        </div>
         
-        <div id="interfaz-inicio">
-            <h1 style="letter-spacing: 8px; margin-top: 40px; text-shadow: 0 0 10px #d4af37;">WINFORMATION</h1>
-            <button class="btn-inicio" onclick="iniciarViaje()">ABRIR PORTAL</button>
+        <div id="interfaz">
+            <h1 style="letter-spacing: 6px; margin-top: 30px;">WINFORMATION IA</h1>
+            <button class="btn-inicio" onclick="iniciarImpacto()">VINCULAR CON CAMILA</button>
         </div>
     </div>
 
-    <div id="bunker-datos">
-        <h2 style="text-align: center; letter-spacing: 3px; color: #d4af37;">RADAR DE INTELIGENCIA</h2>
-        <div id="feed-mensajes"></div>
-    </div>
-
     <script>
-        function iniciarViaje() {
-            const nombre = localStorage.getItem('nombre_cazador') || "Inversor";
-            const camila = document.getElementById('camila-activa');
-            const interfaz = document.getElementById('interfaz-inicio');
+        function iniciarImpacto() {
+            const nombre = localStorage.getItem('nombre_cazador') || "Cazador";
+            const camila = document.getElementById('camila-img');
+            const portal = document.getElementById('portal');
+            const interfaz = document.getElementById('interfaz');
 
-            // 1. Zoom de impacto: Ella se acerca a la pantalla
-            camila.classList.add('zoom-impacto');
             interfaz.style.opacity = '0';
+            portal.style.transform = 'scale(1.3)'; // Zoom de impacto
 
-            // 2. Discurso de Camila
-            const discurso = new SpeechSynthesisUtterance();
-            discurso.text = "Hola " + nombre + ". Soy Camila. He cruzado el tiempo para mostrarte el camino de los números. Aquí no hay azar, hay estrategia. Sincronizando búnker de inversión profesional.";
-            discurso.lang = 'es-ES';
-            discurso.rate = 0.85;
-            discurso.pitch = 1.1;
+            const mensaje = "Hola " + nombre + ". Soy Camila. He cruzado el tiempo para ser tu guía. No estamos aquí para apostar, estamos aquí para dominar los números. Escucha con atención, porque el búnker de inversión está listo para ti.";
+            
+            const voz = new SpeechSynthesisUtterance(mensaje);
+            voz.lang = 'es-ES';
+            voz.rate = 0.85;
 
-            window.speechSynthesis.speak(discurso);
+            // CUANDO EMPIEZA A HABLAR: Mueve la boca
+            voz.onstart = () => { camila.classList.add('hablando'); };
 
-            discurso.onend = function() {
-                // 3. Se convierte en la burbuja grande movible
-                camila.classList.remove('camila-portal', 'zoom-impacto');
-                camila.classList.add('burbuja-maestra');
+            // CUANDO TERMINA: Se vuelve la burbuja grande
+            voz.onend = () => {
+                camila.classList.remove('hablando');
+                portal.classList.remove('contenedor-camila');
+                portal.classList.add('burbuja-maestra');
+                document.getElementById('escena-portal').style.background = "transparent";
+                interfaz.style.display = 'none';
                 
-                // 4. Mostrar el búnker
-                document.getElementById('escena-portal').style.display = 'none';
-                document.getElementById('bunker-datos').style.display = 'block';
-                setTimeout(() => { document.getElementById('bunker-datos').style.opacity = '1'; }, 100);
-                
-                hacerMovible(camila);
+                alert("Entrando al Búnker..."); 
             };
-        }
 
-        // Lógica para mover la burbuja grande por la pantalla
-        function hacerMovible(elmnt) {
-            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            elmnt.onmousedown = dragMouseDown;
-            elmnt.ontouchstart = dragMouseDown;
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                pos3 = e.clientX || e.touches[0].clientX;
-                pos4 = e.clientY || e.touches[0].clientY;
-                document.onmouseup = closeDragElement;
-                document.ontouchend = closeDragElement;
-                document.onmousemove = elementDrag;
-                document.ontouchmove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                let clientX = e.clientX || e.touches[0].clientX;
-                let clientY = e.clientY || e.touches[0].clientY;
-                pos1 = pos3 - clientX;
-                pos2 = pos4 - clientY;
-                pos3 = clientX;
-                pos4 = clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-                document.ontouchend = null;
-                document.ontouchmove = null;
-            }
+            window.speechSynthesis.speak(voz);
         }
     </script>
 </body>
