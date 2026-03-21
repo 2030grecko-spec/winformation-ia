@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winformation IA - Pronósticos</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <style>
+        body { background: #1a1a1a; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 20px; text-align: center; }
+        .header { border-bottom: 2px solid #ffd700; padding-bottom: 10px; margin-bottom: 20px; }
+        .header h1 { color: #ffd700; margin: 0; }
+        .card { background: #333; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #ffd700; text-align: left; }
+        .deporte { font-weight: bold; color: #ffd700; text-transform: uppercase; }
+        .fecha { font-size: 0.7em; color: #aaa; float: right; }
+        .analisis { margin-top: 10px; line-height: 1.4; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>WINFORMATION IA</h1>
+        <p>Pronósticos en Tiempo Real</p>
+    </div>
+    <div id="lista-pronosticos">Cargando jugadas...</div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAs-tu-api-key-aqui", 
+            authDomain: "winformation-ia.firebaseapp.com",
+            databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com",
+            projectId: "winformation-ia",
+            storageBucket: "winformation-ia.appspot.com",
+            messagingSenderId: "331980074121",
+            appId: "1:331980074121:web:9c2f6d71b4e24391e48545"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database().ref('pronosticos');
+
+        db.on('value', (snapshot) => {
+            const container = document.getElementById('lista-pronosticos');
+            container.innerHTML = "";
+            snapshot.forEach((child) => {
+                const data = child.val();
+                container.innerHTML += `
+                    <div class="card">
+                        <span class="fecha">${data.fecha}</span>
+                        <div class="deporte">${data.deporte}</div>
+                        <div class="analisis">${data.analisis}</div>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
