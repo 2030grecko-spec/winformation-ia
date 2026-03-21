@@ -3,97 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Camila Viva</title>
+    <title>Winformation IA - El Búnker</title>
     <style>
-        body { background-color: #000; color: #d4af37; font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; }
+        body { background-color: #000; color: #d4af37; font-family: 'Courier New', Courier, monospace; margin: 0; overflow: hidden; }
+        
+        /* FONDO MATRIX */
+        #matrix { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.15; }
 
-        #escena-portal {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; width: 100%; background: #000;
+        /* PANTALLA DE REGISTRO */
+        #pantalla-registro { 
+            position: fixed; width: 100%; height: 100%; background: #000; 
+            display: none; justify-content: center; align-items: center; z-index: 999; 
+        }
+        .form-box { 
+            background: rgba(17, 17, 17, 0.9); padding: 40px; border-radius: 20px; 
+            border: 2px solid #d4af37; box-shadow: 0 0 30px #d4af37; text-align: center; z-index: 1000;
+        }
+        .form-box h2 { letter-spacing: 3px; margin-bottom: 20px; }
+        .form-box input { 
+            display: block; margin: 15px auto; padding: 15px; width: 250px; 
+            background: #000; border: 1px solid #d4af37; color: #fff; border-radius: 10px; text-align: center;
+        }
+        .form-box button { 
+            margin-top: 20px; padding: 15px 40px; background: #d4af37; color: #000; 
+            border: none; border-radius: 25px; font-weight: bold; cursor: pointer; text-transform: uppercase;
         }
 
-        /* EL PORTAL DE FUEGO */
+        /* ESCENA PORTAL CAMILA */
+        #escena-portal { 
+            position: relative; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; height: 100vh; z-index: 2; 
+        }
+        
         .contenedor-camila {
-            position: relative; width: 260px; height: 260px;
-            border-radius: 50%; border: 6px solid #d4af37;
-            box-shadow: 0 0 60px #ffcc00, inset 0 0 40px #d4af37;
-            overflow: hidden; transition: 1.5s;
+            width: 260px; height: 260px; border-radius: 50%; border: 6px solid #d4af37;
+            box-shadow: 0 0 50px #ffcc00, inset 0 0 30px #d4af37;
+            overflow: hidden; transition: 1.5s; position: relative;
         }
+        .camila-img { width: 100%; height: 100%; object-fit: cover; }
 
-        .camila-img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: 0.5s;
+        /* ANIMACIÓN HABLAR */
+        .hablando { animation: hablar 0.2s infinite alternate; }
+        @keyframes hablar { from { transform: scale(1); } to { transform: scale(1.06); filter: brightness(1.2); } }
+
+        .btn-entrar { 
+            background: #d4af37; color: #000; padding: 20px 60px; border: none; 
+            border-radius: 50px; font-weight: 900; cursor: pointer; margin-top: 50px; 
+            box-shadow: 0 0 20px #d4af37; z-index: 5;
         }
-
-        /* ANIMACIÓN: CAMILA HABLANDO (Mueve la zona de la boca) */
-        @keyframes gesticular {
-            0%, 100% { clip-path: ellipse(100% 100% at 50% 50%); }
-            50% { clip-path: ellipse(98% 95% at 50% 52%); } /* Simula apertura leve */
-        }
-        .hablando { animation: gesticular 0.2s infinite; transform: scale(1.02); }
-
-        /* ANIMACIÓN: PICARDÍA (El guiño/pestañeo) */
-        @keyframes guino {
-            0%, 90%, 100% { filter: brightness(1); }
-            95% { filter: brightness(1.5) contrast(1.2); transform: scale(1.05) rotate(1deg); }
-        }
-        .picardia { animation: guino 4s infinite; }
-
-        /* BURBUJA MAESTRA (Grande y con el Aro) */
-        .burbuja-maestra {
-            position: fixed; top: 20px; right: 20px;
-            width: 150px; height: 150px; border-radius: 50%;
-            border: 4px solid #d4af37; box-shadow: 0 0 30px #d4af37;
-            z-index: 9999; cursor: grab; object-fit: cover;
-        }
-
-        .btn-inicio { background: #d4af37; color: #000; padding: 20px 60px; border: none; border-radius: 50px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 50px; box-shadow: 0 0 20px #d4af37; }
     </style>
 </head>
 <body>
 
-    <div id="escena-portal">
-        <div id="portal" class="contenedor-camila picardia">
-            <img id="camila-img" src="CamilaDelfuro.jpg" class="camila-img" alt="Camila">
-        </div>
-        
-        <div id="interfaz">
-            <h1 style="letter-spacing: 6px; margin-top: 30px;">WINFORMATION IA</h1>
-            <button class="btn-inicio" onclick="iniciarImpacto()">VINCULAR CON CAMILA</button>
+    <canvas id="matrix"></canvas>
+
+    <div id="pantalla-registro">
+        <div class="form-box">
+            <h2>ACCESO AL BÚNKER</h2>
+            <input id="nombre" placeholder="Nombre y Apellido">
+            <input id="correo" placeholder="Correo Electrónico">
+            <button onclick="guardarUsuario()">VINCULAR CUENTA</button>
         </div>
     </div>
 
+    <div id="escena-portal">
+        <div id="portal" class="contenedor-camila">
+            <img id="camila-img" src="CamilaDelfuro.jpg" class="camila-img" alt="Camila">
+        </div>
+        <h1 id="txt-win" style="letter-spacing: 10px; margin-top: 30px; text-shadow: 0 0 10px #d4af37;">WINFORMATION</h1>
+        <button id="btn-viaje" class="btn-entrar" onclick="iniciarViaje()">INICIAR PROTOCOLO</button>
+    </div>
+
     <script>
-        function iniciarImpacto() {
-            const nombre = localStorage.getItem('nombre_cazador') || "Cazador";
-            const camila = document.getElementById('camila-img');
-            const portal = document.getElementById('portal');
-            const interfaz = document.getElementById('interfaz');
+        // EFECTO MATRIX
+        const canvas = document.getElementById("matrix");
+        const ctx = canvas.getContext("2d");
+        canvas.height = window.innerHeight; canvas.width = window.innerWidth;
+        let letras = "01WINFORMATION"; letras = letras.split("");
+        let fontSize = 14; let columns = canvas.width / fontSize;
+        let drops = []; for (let x = 0; x < columns; x++) drops[x] = 1;
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = "#d4af37"; ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                let text = letras[Math.floor(Math.random() * letras.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
 
-            interfaz.style.opacity = '0';
-            portal.style.transform = 'scale(1.3)'; // Zoom de impacto
+        // LÓGICA DE USUARIO
+        window.onload = function() {
+            if (!localStorage.getItem("nombre_cazador")) {
+                document.getElementById("pantalla-registro").style.display = "flex";
+                document.getElementById("escena-portal").style.display = "none";
+            }
+        };
 
-            const mensaje = "Hola " + nombre + ". Soy Camila. He cruzado el tiempo para ser tu guía. No estamos aquí para apostar, estamos aquí para dominar los números. Escucha con atención, porque el búnker de inversión está listo para ti.";
-            
-            const voz = new SpeechSynthesisUtterance(mensaje);
-            voz.lang = 'es-ES';
-            voz.rate = 0.85;
+        function guardarUsuario() {
+            const nombre = document.getElementById('nombre').value;
+            const correo = document.getElementById('correo').value;
+            if (!nombre || !correo) { alert("Camila requiere tus datos."); return; }
+            localStorage.setItem("nombre_cazador", nombre);
+            localStorage.setItem("correo_cazador", correo);
+            document.getElementById("pantalla-registro").style.display = "none";
+            document.getElementById("escena-portal").style.display = "flex";
+        }
 
-            // CUANDO EMPIEZA A HABLAR: Mueve la boca
-            voz.onstart = () => { camila.classList.add('hablando'); };
+        function iniciarViaje() {
+            const nombre = localStorage.getItem("nombre_cazador");
+            const camila = document.getElementById("camila-img");
+            const btn = document.getElementById("btn-viaje");
 
-            // CUANDO TERMINA: Se vuelve la burbuja grande
-            voz.onend = () => {
-                camila.classList.remove('hablando');
-                portal.classList.remove('contenedor-camila');
-                portal.classList.add('burbuja-maestra');
-                document.getElementById('escena-portal').style.background = "transparent";
-                interfaz.style.display = 'none';
-                
-                alert("Entrando al Búnker..."); 
+            btn.style.display = "none";
+            camila.parentElement.style.transform = "scale(1.3)";
+            camila.classList.add("hablando");
+
+            const discurso = new SpeechSynthesisUtterance();
+            discurso.text = `Hola ${nombre}... Bienvenido a Winformation IA... Esto no es una aplicación más... Esto es conocimiento... Esto es poder... Mi nombre es Camila... y he estado esperando tu llegada... Este es un espacio para ganadores... Recuerda esto ${nombre}... Winformation IA no solo te informa... te transforma... Bienvenido al búnker...`;
+            discurso.lang = 'es-ES';
+            discurso.rate = 0.85;
+
+            // Selección de voz pro
+            const voces = speechSynthesis.getVoices();
+            const vozMejor = voces.find(v => v.lang.includes('es') && v.name.includes('Google')) || voces.find(v => v.lang.includes('es'));
+            if (vozMejor) discurso.voice = vozMejor;
+
+            discurso.onend = () => {
+                camila.classList.remove("hablando");
+                alert("Portal abierto. Entrando al área de inteligencia.");
             };
 
-            window.speechSynthesis.speak(voz);
+            window.speechSynthesis.speak(discurso);
         }
     </script>
 </body>
