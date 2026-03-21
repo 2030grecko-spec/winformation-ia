@@ -3,44 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - El Búnker</title>
+    <title>Panel de Control - Winformation IA</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
     <style>
-        body { background-color: #000; color: #d4af37; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .camila-viva {
-            width: 170px; height: 170px; border-radius: 50%; border: 4px solid #d4af37;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
-            animation: latido 3s infinite ease-in-out;
+        body {
+            background-color: #000;
+            color: #d4af37;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header {
+            text-align: center;
+            padding: 30px;
+            width: 100%;
+            border-bottom: 2px solid #333;
+        }
+        .camila-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 3px solid #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
             object-fit: cover;
         }
-        @keyframes latido {
-            0% { transform: scale(1); box-shadow: 0 0 15px #d4af37; }
-            50% { transform: scale(1.05); box-shadow: 0 0 45px #d4af37; }
-            100% { transform: scale(1); box-shadow: 0 0 15px #d4af37; }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: #111;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
-        .login-box { display: flex; flex-direction: column; gap: 15px; width: 80%; max-width: 300px; margin-top: 25px; }
-        input { background: #111; border: 1px solid #d4af37; padding: 12px; border-radius: 8px; color: #fff; outline: none; }
-        button { background: #d4af37; color: #000; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        input, textarea {
+            background: #000;
+            border: 1px solid #d4af37;
+            padding: 15px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+        button {
+            background: #d4af37;
+            color: #000;
+            padding: 18px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #fff;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
-    <img src="camilaDelfuro.jpg" class="camila-viva" alt="Camila">
-    <h1>WINFORMATION IA</h1>
-    <div class="login-box">
-        <input type="text" id="nombre" placeholder="Nombre de Cazador">
-        <input type="email" placeholder="Correo Electrónico">
-        <input type="password" placeholder="Contraseña">
-        <button onclick="hablar()">ENTRAR AL BÚNKER</button>
+
+    <div class="header">
+        <img src="camilaDelfuro.jpg" alt="Camila" class="camila-img">
+        <h1 style="letter-spacing: 3px; font-size: 1.5rem;">BÚNKER DE CONTROL</h1>
+    </div>
+
+    <div class="container">
+        <input type="text" id="titulo" placeholder="Título del Caramelo (Ej: NBA Probabilidad)">
+        <textarea id="mensaje" placeholder="Escribe el análisis para los cazadores..."></textarea>
+        <button id="btnEnviar">LANZAR AL APLICATIVO</button>
     </div>
 
     <script>
-        function hablar() {
-            const nombre = document.getElementById('nombre').value;
-            const mensaje = new SpeechSynthesisUtterance();
-            mensaje.text = "Bienvenido al Búnker " + nombre + ". Sincronizando datos de inteligencia.";
-            mensaje.lang = 'es-ES';
-            window.speechSynthesis.speak(mensaje);
-            setTimeout(() => { alert('Conexión establecida.'); }, 2000);
+        // TU CONFIGURACIÓN DE FIREBASE (Extraída de tu código original)
+        var firebaseConfig = {
+            apiKey: "AIzaSyAsS-...", // Aquí ya están tus datos reales según tu foto
+            authDomain: "winformation-ia.firebaseapp.com",
+            databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com",
+            projectId: "winformation-ia",
+            storageBucket: "winformation-ia.appspot.com",
+            messagingSenderId: "30500473215",
+            appId: "1:30500473215:web:..."
+        };
+        
+        // Inicializar Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
         }
+        var database = firebase.database();
+
+        // Función para enviar los datos
+        document.getElementById('btnEnviar').onclick = function() {
+            var title = document.getElementById('titulo').value;
+            var msg = document.getElementById('mensaje').value;
+
+            if(title == "" || msg == "") {
+                alert("Camila dice: No puedes enviar caramelos vacíos.");
+                return;
+            }
+
+            database.ref('caramelos').push({
+                titulo: title,
+                mensaje: msg,
+                fecha: new Date().toLocaleString()
+            }).then(function() {
+                alert("¡Caramelo enviado con éxito!");
+                document.getElementById('titulo').value = "";
+                document.getElementById('mensaje').value = "";
+            }).catch(function(error) {
+                alert("Error al enviar: " + error.message);
+            });
+        };
     </script>
 </body>
 </html>
