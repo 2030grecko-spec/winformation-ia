@@ -3,97 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Registro</title>
+    <title>Winformation IA - Búnker</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
         body { background-color: #000; color: #d4af37; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        
-        /* Camila Viva */
-        .camila-viva {
-            width: 160px; height: 160px; border-radius: 50%; border: 4px solid #d4af37;
-            box-shadow: 0 0 25px #d4af37; animation: latido 3s infinite ease-in-out; object-fit: cover;
-        }
+        .camila-viva { width: 160px; height: 160px; border-radius: 50%; border: 4px solid #d4af37; box-shadow: 0 0 25px #d4af37; animation: latido 3s infinite ease-in-out; object-fit: cover; }
         @keyframes latido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-
-        /* Formulario de Datos */
-        #formulario-registro {
-            display: none; /* Se activa solo si es nuevo */
-            flex-direction: column; gap: 15px; width: 85%; max-width: 320px; margin-top: 30px;
-            animation: aparecer 1s ease-out;
-        }
-
+        #formulario-registro { display: none; flex-direction: column; gap: 15px; width: 85%; max-width: 320px; margin-top: 30px; animation: aparecer 1s ease-out; }
         @keyframes aparecer { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         input { background: #111; border: 1px solid #d4af37; padding: 14px; border-radius: 10px; color: #fff; outline: none; text-align: center; font-size: 1rem; }
         .btn-accion { background: #d4af37; color: #000; padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-
-        #mensaje-bienvenida { text-align: center; margin-top: 20px; }
+        #mensaje-bienvenida { text-align: center; margin-top: 20px; color: #fff; }
     </style>
 </head>
 <body>
 
     <img src="CamilaDelfuro.jpg" class="camila-viva" alt="Camila">
-    <h1 id="titulo-principal" style="letter-spacing: 3px;">WINFORMATION IA</h1>
+    <h1 style="letter-spacing: 3px;">WINFORMATION IA</h1>
 
     <button id="btn-inicio" class="btn-accion" style="padding: 15px 40px;" onclick="verificarCliente()">ENTRAR AL BÚNKER</button>
 
     <div id="formulario-registro">
-        <p style="color: #fff; font-size: 0.9rem;">Camila no te conoce. Identifícate, cazador:</p>
-        <input type="text" id="nombre-cliente" placeholder="Solo tu primer nombre">
-        <input type="email" id="correo-cliente" placeholder="Tu mejor correo">
-        <button class="btn-accion" onclick="guardarDatos()">REGISTRARME</button>
+        <p style="color: #fff; font-size: 0.9rem;">Camila solicita tu identificación:</p>
+        <input type="text" id="nombre-cliente" placeholder="Tu primer nombre">
+        <input type="email" id="correo-cliente" placeholder="Tu correo electrónico">
+        <button class="btn-accion" onclick="guardarDatos()">VINCULAR CUENTA</button>
     </div>
 
     <div id="mensaje-bienvenida"></div>
 
     <script>
-        // Al cargar la página, verificamos si ya existe el cliente en este equipo
-        function verificarCliente() {
-            const nombreGuardado = localStorage.getItem('nombre_cazador');
-            const btnInicio = document.getElementById('btn-inicio');
-            const formRegistro = document.getElementById('formulario-registro');
+        // CONFIGURACIÓN DE VOZ (Desde tu foto 2082.jpg)
+        var firebaseConfigVoz = {
+            apiKey: "AIzaSyB0yH9KCEL5WDcj9Aqnw4WyN2JruZDz1DQ",
+            authDomain: "winformation-ia.firebaseapp.com",
+            databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com",
+            projectId: "winformation-ia",
+            storageBucket: "winformation-ia.firebasestorage.app",
+            messagingSenderId: "152740731727",
+            appId: "1:152740731727:web:e5b581986293fe57e2433a",
+            measurementId: "G-LSJ1Q0379L"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfigVoz);
+        }
 
-            if (nombreGuardado) {
-                // SI YA EXISTE: Camila lo saluda directo
-                btnInicio.style.display = 'none';
-                saludarCamila(nombreGuardado);
-            } else {
-                // SI ES NUEVO: Mostramos el formulario
-                btnInicio.style.display = 'none';
-                formRegistro.style.display = 'flex';
-            }
+        function verificarCliente() {
+            const nombre = localStorage.getItem('nombre_cazador');
+            document.getElementById('btn-inicio').style.display = 'none';
+            if (nombre) { saludarCamila(nombre); } 
+            else { document.getElementById('formulario-registro').style.display = 'flex'; }
         }
 
         function guardarDatos() {
             const nombre = document.getElementById('nombre-cliente').value;
             const correo = document.getElementById('correo-cliente').value;
-
             if (nombre && correo) {
-                // Guardamos en la memoria del navegador para que no vuelva a salir
                 localStorage.setItem('nombre_cazador', nombre);
                 localStorage.setItem('correo_cazador', correo);
-
-                // Ocultamos registro y saludamos
                 document.getElementById('formulario-registro').style.display = 'none';
                 saludarCamila(nombre);
-            } else {
-                alert("Camila necesita tus datos para poder proteger tu acceso.");
-            }
+            } else { alert("Datos incompletos."); }
         }
 
         function saludarCamila(nombre) {
-            const voz = new SpeechSynthesisUtterance("Hola " + nombre + ". Es un placer verte de nuevo. Sincronizando el búnker para ti.");
+            // Aquí Camila usa la voz del sistema con el nombre que el cliente puso
+            const voz = new SpeechSynthesisUtterance("Hola " + nombre + ". Soy Camila. Sincronizando tu acceso al búnker de inteligencia.");
             voz.lang = 'es-ES';
+            voz.pitch = 1.1; // Un toque más femenino y profesional
+            voz.rate = 0.9;  // Un poco más pausado para dar autoridad
             window.speechSynthesis.speak(voz);
 
             document.getElementById('mensaje-bienvenida').innerHTML = `
-                <h2 style="color: #fff;">Hola, ${nombre}</h2>
-                <p>Acceso concedido. Entrando al sistema...</p>
+                <h2>Bienvenido, ${nombre}</h2>
+                <p>Estableciendo conexión segura...</p>
             `;
-            
-            // Aquí es donde en el futuro lo mandaremos a la siguiente pantalla
-            setTimeout(() => {
-                alert("¡Fase 1 completada! Camila ya te recuerda.");
-            }, 3000);
         }
     </script>
 </body>
