@@ -3,72 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Panel de Control</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <title>Winformation IA - Registro</title>
     <style>
-        body { background: #000; color: #0f0; font-family: 'Courier New', Courier, monospace; text-align: center; }
-        .container { border: 2px solid #ffd700; border-radius: 20px; padding: 20px; max-width: 400px; margin: auto; }
-        img { width: 150px; border-radius: 50%; border: 3px solid #ffd700; margin-bottom: 15px; }
-        select, textarea, button { width: 90%; margin: 10px 0; padding: 10px; border-radius: 10px; border: none; }
-        button { background: #ffd700; color: #000; font-weight: bold; cursor: pointer; }
-        .status { color: #ffd700; font-size: 0.8em; }
+        body {
+            background-color: #000;
+            color: #d4af37; /* Dorado */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .camila-container {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #d4af37;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .camila-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 { font-size: 1.5rem; margin-bottom: 30px; letter-spacing: 2px; }
+
+        .form-group {
+            width: 80%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input {
+            background: #1a1a1a;
+            border: 1px solid #d4af37;
+            padding: 12px;
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+        }
+
+        button {
+            background: #d4af37;
+            color: #000;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        button:hover { background: #fff; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>WINFORMATION IA</h1>
-        <img src="https://via.placeholder.com/150" alt="Camila Logo"> <p class="status">● OPERATIVO EN LA NUBE</p>
-        
-        <label>ELIGE EL DEPORTE:</label>
-        <select id="deporte">
-            <option value="Futbol">⚽ Fútbol</option>
-            <option value="Hockey">🏒 Hockey</option>
-            <option value="Badminton">🏸 Bádminton</option>
-            <option value="Caballos">🐎 Caballos</option>
-            <option value="Galgos">🐕 Perros (Galgos)</option>
-            <option value="F1">🏎️ Fórmula 1</option>
-        </select>
 
-        <label>ANÁLISIS DEL DÍA (El Caramelo):</label>
-        <textarea id="analisis" rows="4" placeholder="Pega aquí el análisis de Bet365..."></textarea>
-
-        <button onclick="inyectarDato()">INYECTAR AL BÚNKER</button>
+    <div class="camila-container">
+        <img src="camila.jpg" alt="Camila AI">
     </div>
 
-    <script>
-        // Configuración sacada de tu foto 1864.jpg
-        const firebaseConfig = {
-            apiKey: "AIzaSyAs-tu-api-key-aqui", 
-            authDomain: "winformation-ia.firebaseapp.com",
-            databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com",
-            projectId: "winformation-ia",
-            storageBucket: "winformation-ia.appspot.com",
-            messagingSenderId: "331980074121",
-            appId: "1:331980074121:web:9c2f6d71b4e24391e48545"
-        };
+    <h1>WINFORMATION IA</h1>
 
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+    <div class="form-group">
+        <input type="text" id="nombre" placeholder="Nombre completo">
+        <input type="email" id="email" placeholder="Correo electrónico">
+        <input type="password" id="pass" placeholder="Contraseña">
+        <button onclick="registrar()">ENTRAR AL BÚNKER</button>
+    </div>
 
-        function inyectarDato() {
-            const dep = document.getElementById('deporte').value;
-            const ana = document.getElementById('analisis').value;
-
-            if(ana === "") { alert("¡Mete el análisis, socio!"); return; }
-
-            database.ref('pronosticos').push({
-                deporte: dep,
-                analisis: ana,
-                fecha: new Date().toLocaleString()
-            }).then(() => {
-                alert("¡Caramelo inyectado con éxito!");
-                document.getElementById('analisis').value = "";
-            }).catch((error) => {
-                alert("Error: " + error.message);
-            });
-        }
-    </script>
 </body>
 </html>
