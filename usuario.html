@@ -10,11 +10,9 @@
         body { background-color: #000; color: #d4af37; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
         .camila-viva { width: 160px; height: 160px; border-radius: 50%; border: 4px solid #d4af37; box-shadow: 0 0 25px #d4af37; animation: latido 3s infinite ease-in-out; object-fit: cover; }
         @keyframes latido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        #formulario-registro { display: none; flex-direction: column; gap: 15px; width: 85%; max-width: 320px; margin-top: 30px; animation: aparecer 1s ease-out; }
-        @keyframes aparecer { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        input { background: #111; border: 1px solid #d4af37; padding: 14px; border-radius: 10px; color: #fff; outline: none; text-align: center; font-size: 1rem; }
-        .btn-accion { background: #d4af37; color: #000; padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        #mensaje-bienvenida { text-align: center; margin-top: 20px; color: #fff; }
+        #formulario-registro { display: none; flex-direction: column; gap: 15px; width: 85%; max-width: 320px; margin-top: 30px; }
+        input { background: #111; border: 1px solid #d4af37; padding: 14px; border-radius: 10px; color: #fff; outline: none; text-align: center; }
+        .btn-accion { background: #d4af37; color: #000; padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -25,36 +23,29 @@
     <button id="btn-inicio" class="btn-accion" style="padding: 15px 40px;" onclick="verificarCliente()">ENTRAR AL BÚNKER</button>
 
     <div id="formulario-registro">
-        <p style="color: #fff; font-size: 0.9rem;">Camila solicita tu identificación:</p>
-        <input type="text" id="nombre-cliente" placeholder="Tu primer nombre">
-        <input type="email" id="correo-cliente" placeholder="Tu correo electrónico">
+        <input type="text" id="nombre-cliente" placeholder="Tu nombre">
+        <input type="email" id="correo-cliente" placeholder="Tu correo">
         <button class="btn-accion" onclick="guardarDatos()">VINCULAR CUENTA</button>
     </div>
 
-    <div id="mensaje-bienvenida"></div>
+    <div id="mensaje-bienvenida" style="text-align: center; margin-top: 20px;"></div>
 
     <script>
-        // CONFIGURACIÓN DE VOZ (Desde tu foto 2082.jpg)
+        // Tus credenciales de la foto 2082.jpg
         var firebaseConfigVoz = {
             apiKey: "AIzaSyB0yH9KCEL5WDcj9Aqnw4WyN2JruZDz1DQ",
             authDomain: "winformation-ia.firebaseapp.com",
-            databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com",
             projectId: "winformation-ia",
-            storageBucket: "winformation-ia.firebasestorage.app",
-            messagingSenderId: "152740731727",
-            appId: "1:152740731727:web:e5b581986293fe57e2433a",
-            measurementId: "G-LSJ1Q0379L"
+            appId: "1:152740731727:web:e5b581986293fe57e2433a"
         };
         
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfigVoz);
-        }
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfigVoz);
 
         function verificarCliente() {
             const nombre = localStorage.getItem('nombre_cazador');
             document.getElementById('btn-inicio').style.display = 'none';
-            if (nombre) { saludarCamila(nombre); } 
-            else { document.getElementById('formulario-registro').style.display = 'flex'; }
+            if (nombre) saludarCamila(nombre);
+            else document.getElementById('formulario-registro').style.display = 'flex';
         }
 
         function guardarDatos() {
@@ -65,22 +56,31 @@
                 localStorage.setItem('correo_cazador', correo);
                 document.getElementById('formulario-registro').style.display = 'none';
                 saludarCamila(nombre);
-            } else { alert("Datos incompletos."); }
+            }
         }
 
         function saludarCamila(nombre) {
-            // Aquí Camila usa la voz del sistema con el nombre que el cliente puso
-            const voz = new SpeechSynthesisUtterance("Hola " + nombre + ". Soy Camila. Sincronizando tu acceso al búnker de inteligencia.");
+            const mensaje = "Hola " + nombre + ". Soy Camila. Sincronizando tu acceso al búnker de inteligencia.";
+            const voz = new SpeechSynthesisUtterance(mensaje);
+            
+            // Forzamos la búsqueda de una voz femenina de alta calidad
+            const voces = window.speechSynthesis.getVoices();
+            const vozVilaEstilo = voces.find(v => v.name.includes('Spanish') && v.name.includes('Google') && (v.name.includes('female') || v.name.includes('México') || v.name.includes('Spain'))) 
+                                || voces.find(v => v.lang.includes('es'));
+
+            if (vozVilaEstilo) voz.voice = vozVilaEstilo;
+            
             voz.lang = 'es-ES';
-            voz.pitch = 1.1; // Un toque más femenino y profesional
-            voz.rate = 0.9;  // Un poco más pausado para dar autoridad
+            voz.pitch = 1.05; // Un poco más agudo para que sea femenino
+            voz.rate = 0.85;  // Más pausado para que suene importante
+            
             window.speechSynthesis.speak(voz);
 
-            document.getElementById('mensaje-bienvenida').innerHTML = `
-                <h2>Bienvenido, ${nombre}</h2>
-                <p>Estableciendo conexión segura...</p>
-            `;
+            document.getElementById('mensaje-bienvenida').innerHTML = `<h2 style="color:#fff;">Bienvenido, ${nombre}</h2>`;
         }
+
+        // Cargar voces para navegadores móviles
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
     </script>
 </body>
 </html>
