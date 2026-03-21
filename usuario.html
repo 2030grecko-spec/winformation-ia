@@ -3,39 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winformation IA - Acceso</title>
+    <title>Winformation IA - Registro</title>
     <style>
-        body { background-color: #000; color: #d4af37; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        body { background-color: #000; color: #d4af37; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        
+        /* Camila Viva */
         .camila-viva {
-            width: 180px; height: 180px; border-radius: 50%; border: 4px solid #d4af37;
+            width: 160px; height: 160px; border-radius: 50%; border: 4px solid #d4af37;
             box-shadow: 0 0 25px #d4af37; animation: latido 3s infinite ease-in-out; object-fit: cover;
         }
-        @keyframes latido {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 15px #d4af37; }
-            50% { transform: scale(1.05); box-shadow: 0 0 45px #d4af37; }
+        @keyframes latido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        /* Formulario de Datos */
+        #formulario-registro {
+            display: none; /* Se activa solo si es nuevo */
+            flex-direction: column; gap: 15px; width: 85%; max-width: 320px; margin-top: 30px;
+            animation: aparecer 1s ease-out;
         }
-        .form-cazador { display: flex; flex-direction: column; gap: 15px; width: 85%; max-width: 300px; margin-top: 30px; text-align: center; }
-        input { background: #111; border: 1px solid #d4af37; padding: 14px; border-radius: 10px; color: #fff; outline: none; text-align: center; }
-        button { background: #d4af37; color: #000; padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+
+        @keyframes aparecer { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        input { background: #111; border: 1px solid #d4af37; padding: 14px; border-radius: 10px; color: #fff; outline: none; text-align: center; font-size: 1rem; }
+        .btn-accion { background: #d4af37; color: #000; padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+
+        #mensaje-bienvenida { text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
+
     <img src="CamilaDelfuro.jpg" class="camila-viva" alt="Camila">
-    <h1 style="letter-spacing: 3px; margin-top: 15px;">WINFORMATION IA</h1>
-    <div class="form-cazador">
-        <input type="text" id="nombreCazador" placeholder="Tu Nombre de Cazador">
-        <button onclick="entrar()">ENTRAR AL BÚNKER</button>
+    <h1 id="titulo-principal" style="letter-spacing: 3px;">WINFORMATION IA</h1>
+
+    <button id="btn-inicio" class="btn-accion" style="padding: 15px 40px;" onclick="verificarCliente()">ENTRAR AL BÚNKER</button>
+
+    <div id="formulario-registro">
+        <p style="color: #fff; font-size: 0.9rem;">Camila no te conoce. Identifícate, cazador:</p>
+        <input type="text" id="nombre-cliente" placeholder="Solo tu primer nombre">
+        <input type="email" id="correo-cliente" placeholder="Tu mejor correo">
+        <button class="btn-accion" onclick="guardarDatos()">REGISTRARME</button>
     </div>
+
+    <div id="mensaje-bienvenida"></div>
+
     <script>
-        function entrar() {
-            const nombre = document.getElementById('nombreCazador').value;
-            if (nombre) {
-                const voz = new SpeechSynthesisUtterance();
-                voz.text = "Hola " + nombre + ", soy Camila. Sincronizando tu acceso al búnker de inteligencia.";
-                voz.lang = 'es-ES';
-                window.speechSynthesis.speak(voz);
-                alert('Sincronizando con Camila... Bienvenido, ' + nombre);
-            } else { alert('Camila necesita tu nombre.'); }
+        // Al cargar la página, verificamos si ya existe el cliente en este equipo
+        function verificarCliente() {
+            const nombreGuardado = localStorage.getItem('nombre_cazador');
+            const btnInicio = document.getElementById('btn-inicio');
+            const formRegistro = document.getElementById('formulario-registro');
+
+            if (nombreGuardado) {
+                // SI YA EXISTE: Camila lo saluda directo
+                btnInicio.style.display = 'none';
+                saludarCamila(nombreGuardado);
+            } else {
+                // SI ES NUEVO: Mostramos el formulario
+                btnInicio.style.display = 'none';
+                formRegistro.style.display = 'flex';
+            }
+        }
+
+        function guardarDatos() {
+            const nombre = document.getElementById('nombre-cliente').value;
+            const correo = document.getElementById('correo-cliente').value;
+
+            if (nombre && correo) {
+                // Guardamos en la memoria del navegador para que no vuelva a salir
+                localStorage.setItem('nombre_cazador', nombre);
+                localStorage.setItem('correo_cazador', correo);
+
+                // Ocultamos registro y saludamos
+                document.getElementById('formulario-registro').style.display = 'none';
+                saludarCamila(nombre);
+            } else {
+                alert("Camila necesita tus datos para poder proteger tu acceso.");
+            }
+        }
+
+        function saludarCamila(nombre) {
+            const voz = new SpeechSynthesisUtterance("Hola " + nombre + ". Es un placer verte de nuevo. Sincronizando el búnker para ti.");
+            voz.lang = 'es-ES';
+            window.speechSynthesis.speak(voz);
+
+            document.getElementById('mensaje-bienvenida').innerHTML = `
+                <h2 style="color: #fff;">Hola, ${nombre}</h2>
+                <p>Acceso concedido. Entrando al sistema...</p>
+            `;
+            
+            // Aquí es donde en el futuro lo mandaremos a la siguiente pantalla
+            setTimeout(() => {
+                alert("¡Fase 1 completada! Camila ya te recuerda.");
+            }, 3000);
         }
     </script>
 </body>
