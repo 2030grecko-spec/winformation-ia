@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, landscape-only">
+    <title>Winformation AI | Hunter Panel</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <style>
+        body { background: #000; color: #D4AF37; font-family: 'Courier New', monospace; margin: 0; padding: 20px; overflow-x: hidden; }
+        .header { border-bottom: 2px solid #D4AF37; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .card { border: 1px solid #333; padding: 15px; background: rgba(15,15,15,0.9); position: relative; border-left: 4px solid #D4AF37; }
+        .event { color: #fff; font-size: 1.2rem; margin-bottom: 5px; }
+        .prob { font-size: 2.5rem; font-weight: bold; text-shadow: 0 0 10px #D4AF37; }
+        .camila-label { color: #0f0; font-size: 0.8rem; margin-top: 10px; text-transform: uppercase; }
+        .loading { text-align: center; margin-top: 50px; font-size: 1.5rem; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span>STATUS: SYSTEM ONLINE</span>
+        <span>CAMILA v3.0</span>
+    </div>
+
+    <div id="loading" class="loading">SINCRONIZANDO CON EL BÚNKRE...</div>
+    <div class="grid" id="panel-datos"></div>
+
+    <script>
+        // CONFIGURACIÓN DE TU CAPTURA (Ojo Clínico aplicado)
+        const firebaseConfig = {
+            apiKey: "AIzaSyB_...", // GitHub lo leerá de tus archivos internos
+            authDomain: "winformation-ia.firebaseapp.com",
+            databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com",
+            projectId: "winformation-ia",
+            storageBucket: "winformation-ia.appspot.com",
+            messagingSenderId: "1093393527237",
+            appId: "1:1093393527237:web:806c99c8286a1005a870d4"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // Escuchar datos de la carpeta 'pronosticos' que vimos en tu captura
+        db.ref('pronosticos').on('value', (snapshot) => {
+            const container = document.getElementById('panel-datos');
+            const loading = document.getElementById('loading');
+            container.innerHTML = '';
+            loading.style.display = 'none';
+
+            snapshot.forEach((childSnapshot) => {
+                const data = childSnapshot.val();
+                const card = `
+                    <div class="card">
+                        <div class="event">${childSnapshot.key}</div>
+                        <div class="prob">${data.probabilidad || 'N/A'}%</div>
+                        <div class="camila-label">CAMILA: "VENTAJA ESTADÍSTICA DETECTADA"</div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        });
+    </script>
+</body>
+</html>
