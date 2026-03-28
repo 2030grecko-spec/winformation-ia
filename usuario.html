@@ -5,51 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, landscape-only">
     <title>Winformation AI | Registry</title>
     <style>
-        body { background: #000; color: #fff; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
-        .camila-reveal { position: absolute; width: 60%; opacity: 0.3; z-index: 1; } /* Aquí irá la imagen de Camila */
-        .registration-box { z-index: 10; background: rgba(0,0,0,0.8); padding: 40px; border-radius: 10px; width: 400px; }
-        .input-group { margin-bottom: 20px; position: relative; border-bottom: 1px solid #333; }
-        input { background: transparent; border: none; color: white; padding: 10px; width: 80%; outline: none; }
+        body { background: #000; color: #fff; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; overflow: hidden; }
+        .camila-reveal { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* Para que la foto ocupe toda la pantalla */
+            opacity: 0.15; /* Empieza muy suave, casi invisible */
+            z-index: 1; 
+            transition: opacity 1s ease-in-out; /* Animación suave */
+        }
+        .registration-box { z-index: 10; background: rgba(0,0,0,0.85); padding: 40px; border-radius: 10px; width: 400px; border: 1px solid #333; }
+        .input-group { margin-bottom: 25px; position: relative; border-bottom: 2px solid #333; padding-bottom: 5px; }
+        input { background: transparent; border: none; color: white; padding: 10px; width: 80%; outline: none; font-size: 1.1rem; }
         .fang-btn { 
-            position: absolute; right: 0; cursor: pointer; width: 30px; height: 30px; 
+            position: absolute; right: 0; top: 5px; cursor: pointer; width: 30px; height: 30px; 
             background: #D4AF37; clip-path: polygon(50% 100%, 0% 0%, 100% 0%); /* Forma de Colmillo */
             border-bottom: 4px solid #000; /* Punta negra de obsidiana */
+            transition: transform 0.3s;
         }
+        .fang-btn:hover { transform: scale(1.1); }
         .hidden { display: none; }
+        h2 { text-align: center; margin-top: 0; letter-spacing: 2px; }
     </style>
 </head>
 <body>
-    <img src="camila-pose.png" class="camila-reveal" alt="Camila">
+    <img src="CamilaDelfuego.jpg" class="camila-reveal" alt="Camila">
     
     <div class="registration-box" id="regBox">
-        <h2 style="color: #D4AF37;">Hunter Identity</h2>
+        <h2 style="color: #D4AF37;">HUNTER IDENTITY</h2>
+        
         <div class="input-group" id="group1">
             <input type="text" placeholder="Full Name">
-            <div class="fang-btn" onclick="revealPart('group1')"></div>
+            <div class="fang-btn" title="Confirm" onclick="revealPart('group1')"></div>
         </div>
+        
         <div class="input-group" id="group2">
             <input type="email" placeholder="Email Address">
-            <div class="fang-btn" onclick="revealPart('group2')"></div>
+            <div class="fang-btn" title="Confirm" onclick="revealPart('group2')"></div>
         </div>
+        
         <div class="input-group" id="group3">
             <input type="password" placeholder="Access Password">
-            <div class="fang-btn" onclick="finishRegistry()"></div>
+            <div class="fang-btn" title="Finalize" onclick="finishRegistry()"></div>
         </div>
     </div>
 
     <script>
+        // Esta función hace que Camila se revele poco a poco
         function revealPart(id) {
             const element = document.getElementById(id);
             element.style.transition = "0.5s";
             element.style.opacity = "0";
             setTimeout(() => element.classList.add('hidden'), 500);
-            // Aquí Camila se hace más visible en cada click
-            document.querySelector('.camila-reveal').style.opacity = parseFloat(document.querySelector('.camila-reveal').style.opacity) + 0.2;
+            
+            // Aumentamos la visibilidad de CamilaDelfuego.jpg en cada clic
+            const camilaImg = document.querySelector('.camila-reveal');
+            let currentOpacity = parseFloat(window.getComputedStyle(camilaImg).opacity);
+            camilaImg.style.opacity = currentOpacity + 0.25; // Se vuelve más nítida
         }
 
         function finishRegistry() {
-            alert("Camila: Welcome to the 1%. The Bunker is yours.");
-            location.href = 'panel.html'; // Al panel de las 7 ventanas
+            const camilaImg = document.querySelector('.camila-reveal');
+            camilaImg.style.opacity = 1; // Revelación total al final
+            
+            // Un pequeño retraso para que se vea la revelación total antes del mensaje
+            setTimeout(() => {
+                alert("Camila: Welcome to the 1%. The Bunker is yours. Prepare to hunt.");
+                // location.href = 'panel.html'; // Descomentar cuando tengamos el panel listo
+            }, 1000);
         }
     </script>
 </body>
