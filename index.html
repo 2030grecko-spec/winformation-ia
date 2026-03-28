@@ -1,54 +1,54 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Control - Winformation IA</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, landscape-only">
+    <title>Winformation AI | The Bunker</title>
     <style>
-        body { background-color: #000; color: #d4af37; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .camila-img { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #d4af37; object-fit: cover; box-shadow: 0 0 15px #d4af37; }
-        .container { width: 95%; max-width: 450px; background: #111; padding: 25px; border-radius: 15px; border: 1px solid #333; display: flex; flex-direction: column; gap: 15px; }
-        input, textarea { background: #000; border: 1px solid #d4af37; padding: 12px; border-radius: 8px; color: #fff; font-size: 1rem; outline: none; }
-        button { background: #d4af37; color: #000; padding: 15px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+        body { margin: 0; background: #000; color: #D4AF37; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        .matrix-bg { position: fixed; top: 0; width: 100%; height: 100%; opacity: 0.15; z-index: -1; }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        h1 { font-size: 3rem; letter-spacing: 5px; text-shadow: 0 0 20px #D4AF37; }
+        .enter-btn { 
+            padding: 20px 40px; border: 2px solid #D4AF37; background: transparent; 
+            color: #D4AF37; cursor: pointer; font-weight: bold; font-size: 1.2rem;
+            transition: 0.5s; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+        .enter-btn:hover { background: #D4AF37; color: #000; box-shadow: 0 0 30px #D4AF37; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <img src="CamilaDelfuro.jpg" alt="Camila" class="camila-img">
-        <h1 style="letter-spacing: 2px;">CONTROL PANEL</h1>
+    <canvas id="matrix" class="matrix-bg"></canvas>
+    <div class="hero">
+        <h1>WINFORMATION AI</h1>
+        <p>"Don't be a sardine. Become a Hunter."</p>
+        <button class="enter-btn" onclick="location.href='usuario.html'">ENTER THE BUNKER</button>
     </div>
-    <div class="container">
-        <input type="text" id="titulo" placeholder="Título del Caramelo">
-        <textarea id="mensaje" placeholder="Mensaje para los cazadores..." style="height: 100px;"></textarea>
-        <button id="btnEnviar">LANZAR AL APLICATIVO</button>
-    </div>
+
     <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyAsS-5Xm09Kk3J-o5f-3vH_N6tSjK9P8",
-            authDomain: "winformation-ia.firebaseapp.com",
-            databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com",
-            projectId: "winformation-ia",
-            storageBucket: "winformation-ia.appspot.com",
-            messagingSenderId: "30500473215",
-            appId: "1:30500473215:web:5d2b67f18b769226c6d267"
-        };
-        if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
-        var database = firebase.database();
-        document.getElementById('btnEnviar').onclick = function() {
-            var t = document.getElementById('titulo').value;
-            var m = document.getElementById('mensaje').value;
-            if(t === "" || m === "") { alert("Camila dice: No envíes campos vacíos."); return; }
-            database.ref('caramelos').push({
-                titulo: t, mensaje: m, fecha: new Date().toLocaleString()
-            }).then(function() {
-                alert("¡Caramelo enviado con éxito!");
-                document.getElementById('titulo').value = "";
-                document.getElementById('mensaje').value = "";
-            }).catch(function(e) { alert("Error: " + e.message); });
-        };
+        // Lógica simple de lluvia Matrix para el fondo
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const letters = "WINFORMATIONAI0101";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#D4AF37"; 
+            ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 50);
     </script>
 </body>
 </html>
