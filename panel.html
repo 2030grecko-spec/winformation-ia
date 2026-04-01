@@ -1,67 +1,105 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, landscape-only">
-    <title>Winformation AI | Hunter Panel</title>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, orientation=landscape">
+    <title>WINFORCE - COMMAND CENTER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #000; color: #D4AF37; font-family: 'Courier New', monospace; margin: 0; padding: 20px; overflow-x: hidden; }
-        .header { border-bottom: 2px solid #D4AF37; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-        .card { border: 1px solid #333; padding: 15px; background: rgba(15,15,15,0.9); position: relative; border-left: 4px solid #D4AF37; }
-        .event { color: #fff; font-size: 1.2rem; margin-bottom: 5px; }
-        .prob { font-size: 2.5rem; font-weight: bold; text-shadow: 0 0 10px #D4AF37; }
-        .camila-label { color: #0f0; font-size: 0.8rem; margin-top: 10px; text-transform: uppercase; }
-        .loading { text-align: center; margin-top: 50px; font-size: 1.5rem; animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+        body { margin: 0; background: #000; color: #D4AF37; font-family: 'Orbitron', sans-serif; overflow: hidden; }
+        
+        /* CONTENEDOR DE LAS 7 PUERTAS */
+        .grid-bunker {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 50px;
+            height: 100vh;
+            transition: all 1.5s ease-in-out;
+        }
+
+        .puerta {
+            border: 1px solid #D4AF37;
+            background: rgba(212, 175, 55, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: 0.5s;
+        }
+
+        .puerta:hover { background: rgba(212, 175, 55, 0.2); box-shadow: 0 0 20px #D4AF37; }
+
+        /* EFECTO DE FOCO EN TITANES */
+        .focus-titanes {
+            transform: scale(1.5);
+            z-index: 100;
+            box-shadow: 0 0 50px #D4AF37;
+            background: #000 !important;
+        }
+
+        /* BURBUJA DE CAMILA EN LA ESQUINA */
+        .camila-bubble {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border: 2px solid #D4AF37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            background: #000;
+            box-shadow: 0 0 15px #D4AF37;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <span>STATUS: SYSTEM ONLINE</span>
-        <span>CAMILA v3.0</span>
+
+    <div class="camila-bubble">A I</div>
+
+    <div class="grid-bunker" id="bunker-grid">
+        <div class="puerta">ALPHA RADAR</div>
+        <div class="puerta">THE VAULT</div>
+        <div class="puerta" id="puerta-titanes">TITAN PROTOCOLS</div>
+        <div class="puerta">QUANTUM SIGMA 7</div>
+        <div class="puerta">THE LINK</div>
+        <div class="puerta">NEURAL SETTINGS</div>
+        <div class="puerta">SUPPORT HUB</div>
     </div>
 
-    <div id="loading" class="loading">SINCRONIZANDO CON EL BÚNKRE...</div>
-    <div class="grid" id="panel-datos"></div>
-
     <script>
-        // CONFIGURACIÓN DE TU CAPTURA (Ojo Clínico aplicado)
-        const firebaseConfig = {
-            apiKey: "AIzaSyB_...", // GitHub lo leerá de tus archivos internos
-            authDomain: "winformation-ia.firebaseapp.com",
-            databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com",
-            projectId: "winformation-ia",
-            storageBucket: "winformation-ia.appspot.com",
-            messagingSenderId: "1093393527237",
-            appId: "1:1093393527237:web:806c99c8286a1005a870d4"
+        // Sincronía de los 3 segundos
+        window.onload = () => {
+            console.log("Panel iniciado. Camila vigilando...");
+            
+            setTimeout(() => {
+                const titanes = document.getElementById('puerta-titanes');
+                const grid = document.getElementById('bunker-grid');
+                
+                // Efecto visual de "Entrada a los Titanes"
+                titanes.classList.add('focus-titanes');
+                
+                setTimeout(() => {
+                    // Aquí es donde entraría a la sección de los cursos e historias
+                    alert("ACCEDIENDO A TITAN PROTOCOLS: El conocimiento de los imperios.");
+                    // window.location.href = 'titanes.html'; 
+                }, 1500);
+            }, 3000); // LOS 3 SEGUNDOS QUE PEDISTE
         };
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        // Escuchar datos de la carpeta 'pronosticos' que vimos en tu captura
-        db.ref('pronosticos').on('value', (snapshot) => {
-            const container = document.getElementById('panel-datos');
-            const loading = document.getElementById('loading');
-            container.innerHTML = '';
-            loading.style.display = 'none';
-
-            snapshot.forEach((childSnapshot) => {
-                const data = childSnapshot.val();
-                const card = `
-                    <div class="card">
-                        <div class="event">${childSnapshot.key}</div>
-                        <div class="prob">${data.probabilidad || 'N/A'}%</div>
-                        <div class="camila-label">CAMILA: "VENTAJA ESTADÍSTICA DETECTADA"</div>
-                    </div>
-                `;
-                container.innerHTML += card;
-            });
-        });
+        // CONECTOR DE TELEGRAM (RELOJ MAESTRO)
+        async function enviarAlertaTelegram(mensaje) {
+            const botToken = "TU_BOT_TOKEN"; // Aquí va tu token de Telegram
+            const chatId = "TU_CHAT_ID";
+            await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${mensaje}`);
+        }
     </script>
 </body>
 </html>
-.
