@@ -2,53 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, landscape-only">
-    <title>Winformation AI | The Bunker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, orientation=landscape">
+    <title>WINFORMATION IA - PORTAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; background: #000; color: #D4AF37; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-        .matrix-bg { position: fixed; top: 0; width: 100%; height: 100%; opacity: 0.15; z-index: -1; }
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        h1 { font-size: 3rem; letter-spacing: 5px; text-shadow: 0 0 20px #D4AF37; }
-        .enter-btn { 
-            padding: 20px 40px; border: 2px solid #D4AF37; background: transparent; 
-            color: #D4AF37; cursor: pointer; font-weight: bold; font-size: 1.2rem;
-            transition: 0.5s; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        :root { --gold: #D4AF37; --bg: #000; }
+        body, html { margin: 0; background: var(--bg); color: var(--gold); font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; }
+        
+        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.2; }
+        .vault-container { position: relative; z-index: 10; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+        /* EFECTO DE ZOOM A LOS OJOS */
+        .eye-focus { transform: scale(6); transition: transform 3.5s ease-in-out; }
+
+        .camila-frame { position: relative; }
+        .camila-img { width: 220px; filter: drop-shadow(0 0 15px var(--gold)); transition: 0.5s; }
+        .talking { animation: speak-vib 0.3s infinite alternate; }
+        @keyframes speak-vib { from { transform: scale(1); } to { transform: scale(1.03); } }
+
+        /* PUPILAS A-I */
+        .pupil { position: absolute; top: 42%; font-weight: 900; font-size: 7px; color: #fff; text-shadow: 0 0 8px var(--gold); opacity: 0; transition: 1s; }
+        .pupil-active { opacity: 1; }
+
+        /* BOTÓN COLMILLO DE MARFIL */
+        #ivory-fang {
+            background: #000; border: 1px solid var(--gold); color: var(--gold);
+            padding: 15px 35px; cursor: pointer; font-weight: 900; letter-spacing: 4px;
+            clip-path: polygon(50% 100%, 0% 0%, 100% 0%); margin-top: 20px;
         }
-        .enter-btn:hover { background: #D4AF37; color: #000; box-shadow: 0 0 30px #D4AF37; }
+
+        /* THANOS SNAP DORADO */
+        .snap-gold { animation: snap 2s forwards; }
+        @keyframes snap {
+            100% { filter: brightness(15) blur(15px); transform: translateY(-150px) scale(0); opacity: 0; }
+        }
     </style>
 </head>
 <body>
-    <canvas id="matrix" class="matrix-bg"></canvas>
-    <div class="hero">
-        <h1>WINFORMATION AI</h1>
-        <p>"Don't be a sardine. Become a Hunter."</p>
-        <button class="enter-btn" onclick="location.href='usuario.html'">ENTER THE BUNKER</button>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="vault-container" id="bunker-ui">
+        <div class="camila-frame" id="camila-container">
+            <div id="p-a" class="pupil" style="left:38%">A</div>
+            <div id="p-i" class="pupil" style="right:38%">I</div>
+            <img src="CamilaDelfuro.jpg" id="camila-asset" class="camila-img">
+        </div>
+        <div id="login-fields">
+            <input type="text" id="hunterName" placeholder="HUNTER NAME" style="background:transparent; border:none; border-bottom:1px solid var(--gold); color:#fff; text-align:center; margin-bottom:20px; outline:none;">
+            <br>
+            <button id="ivory-fang" onclick="iniciarRitual()">IVORY FANG</button>
+        </div>
     </div>
 
     <script>
-        // Lógica simple de lluvia Matrix para el fondo
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const letters = "WINFORMATIONAI0101";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
+        const API_KEY = "NtS6nEHDYMQC9QczMQuq";
+        const VOICE_ID = "EXAVITQu4vr4xnSDxMaL";
 
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#D4AF37"; 
-            ctx.font = fontSize + "px monospace";
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
+        async function hablarCamila(texto) {
+            const avatar = document.getElementById('camila-asset');
+            const resp = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'xi-api-key': API_KEY },
+                body: JSON.stringify({ text: texto, model_id: "eleven_multilingual_v2", voice_settings: { stability: 0.4, similarity_boost: 0.8 } })
+            });
+
+            const audio = new Audio(URL.createObjectURL(await resp.blob()));
+            audio.onplay = () => {
+                avatar.classList.add('talking');
+                if(texto.includes("Look into my eyes")) {
+                    document.getElementById('camila-container').classList.add('eye-focus');
+                    document.getElementById('p-a').classList.add('pupil-active');
+                    document.getElementById('p-i').classList.add('pupil-active');
+                }
+            };
+            audio.onended = () => {
+                avatar.classList.remove('talking');
+                document.getElementById('camila-container').classList.add('snap-gold');
+                setTimeout(() => { window.location.href = 'panel.html'; }, 2000);
+            };
+            audio.play();
         }
-        setInterval(drawMatrix, 50);
+
+        function iniciarRitual() {
+            const name = document.getElementById('hunterName').value || "Hunter";
+            document.getElementById('login-fields').style.display = 'none';
+            hablarCamila(`Hello ${name}, I am Camila. Welcome to the Bunker. Look into my eyes. Welcome to command.`);
+        }
     </script>
 </body>
 </html>
