@@ -1,61 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, landscape-only">
-    <title>Winformation AI | Registry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, orientation=landscape">
+    <title>WINFORCE - PERFIL DEL CAZADOR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <style>
-        body { background: #000; color: #fff; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; overflow: hidden; }
-        .camila-reveal { 
-            position: absolute; 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            opacity: 0.1; /* Empieza casi invisible */
-            z-index: 1; 
-            transition: opacity 1s ease-in-out;
+        :root { --gold: #D4AF37; --bg: #000; }
+        body { background: var(--bg); color: var(--gold); font-family: 'Orbitron', sans-serif; text-align: center; margin: 0; padding: 20px; }
+        
+        .user-card { 
+            border: 1px solid var(--gold); padding: 40px; border-radius: 20px; 
+            max-width: 400px; margin: 50px auto; background: #050505;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
         }
-        .registration-box { z-index: 10; background: rgba(0,0,0,0.85); padding: 40px; border-radius: 10px; width: 400px; border: 1px solid #333; }
-        .input-group { margin-bottom: 25px; position: relative; border-bottom: 2px solid #333; padding-bottom: 5px; }
-        input { background: transparent; border: none; color: white; padding: 10px; width: 80%; outline: none; font-size: 1.1rem; }
-        .fang-btn { 
-            position: absolute; right: 0; top: 5px; cursor: pointer; width: 30px; height: 30px; 
-            background: #D4AF37; clip-path: polygon(50% 100%, 0% 0%, 100% 0%); 
-            border-bottom: 4px solid #000; 
+
+        input { 
+            background: transparent; border: none; border-bottom: 1px solid var(--gold); 
+            color: #fff; width: 80%; padding: 10px; margin: 15px 0; outline: none; font-family: 'Orbitron';
         }
-        .hidden { display: none; }
+
+        .btn-save { 
+            background: var(--gold); color: #000; border: none; padding: 15px 30px; 
+            font-weight: 900; cursor: pointer; margin-top: 20px; width: 100%;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        #status-msg { font-size: 0.7rem; margin-top: 15px; opacity: 0.7; }
     </style>
 </head>
 <body>
-    <!-- AQUÍ ESTÁ EL CAMBIO: Nombre exacto de tu archivo -->
-    <img src="CamilaDelfuro.jpg" class="camila-reveal" alt="Camila">
-    
-    <div class="registration-box" id="regBox">
-        <h2 style="color: #D4AF37; text-align: center;">HUNTER IDENTITY</h2>
-        <div class="input-group" id="group1">
-            <input type="text" placeholder="Full Name">
-            <div class="fang-btn" onclick="revealPart('group1')"></div>
-        </div>
-        <div class="input-group" id="group2">
-            <input type="email" placeholder="Email Address">
-            <div class="fang-btn" onclick="revealPart('group2')) "></div>
-        </div>
-        <div class="input-group" id="group3">
-            <input type="password" placeholder="Access Password">
-            <div class="fang-btn" onclick="finishRegistry()"></div>
-        </div>
+
+    <div class="user-card">
+        <h2 style="letter-spacing: 5px;">HUNTER PROFILE</h2>
+        <div id="reloj-brasil" style="font-size: 0.8rem; margin-bottom: 20px;">00:00:00 (BR)</div>
+
+        <input type="text" id="regName" placeholder="NOMBRE REAL">
+        <input type="email" id="regEmail" placeholder="EMAIL DE OPERACIONES">
+        <input type="password" id="regPass" placeholder="PASSWORD">
+        <input type="text" id="regFinger" placeholder="FINGERPRINT ID" readonly>
+
+        <button class="btn-save" onclick="guardarEnBunker()">SELLAR CONTRATO</button>
+        <div id="status-msg">ESPERANDO ACCIÓN...</div>
     </div>
 
     <script>
-        function revealPart(id) {
-            document.getElementById(id).classList.add('hidden');
-            const img = document.querySelector('.camila-reveal');
-            let op = parseFloat(window.getComputedStyle(img).opacity);
-            img.style.opacity = op + 0.3; // Se revela más con cada Colmillo
-        }
-        function finishRegistry() {
-            document.querySelector('.camila-reveal').style.opacity = 1;
-            setTimeout(() => { alert("Camila: Welcome to the 1%."); }, 500);
+        // CONFIGURACIÓN DE TU BÚNKER (FIREBASE)
+        const firebaseConfig = {
+            databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // Generar una Huella Digital falsa para el estilo
+        document.getElementById('regFinger').value = "WF-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+
+        // Sincronía con tu tiempo en Brasil
+        setInterval(() => {
+            const hora = new Date().toLocaleTimeString("pt-BR");
+            document.getElementById('reloj-brasil').innerText = hora + " (BRASIL)";
+        }, 1000);
+
+        function guardarEnBunker() {
+            const nombre = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const status = document.getElementById('status-msg');
+
+            if(!nombre || !email) {
+                status.innerText = "DATOS INCOMPLETOS, CAZADOR.";
+                return;
+            }
+
+            status.innerText = "CONECTANDO CON EL BÚNKER...";
+
+            // Guardamos en Firebase para que Camila tenga memoria real
+            db.ref('Usuarios/' + nombre).set({
+                email: email,
+                fingerprint: document.getElementById('regFinger').value,
+                ultimoAcceso: new Date().toLocaleString("pt-BR")
+            }).then(() => {
+                status.innerText = "CONTRATO SELLADO. VOLVIENDO AL PANEL...";
+                setTimeout(() => { window.location.href = 'panel.html'; }, 2000);
+            }).catch(err => {
+                status.innerText = "ERROR EN EL ENCRIPTADO.";
+                console.error(err);
+            });
         }
     </script>
 </body>
