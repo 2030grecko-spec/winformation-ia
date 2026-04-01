@@ -1,63 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, orientation=landscape">
-    <title>WINFORCE - COMMAND CENTER</title>
+    <title>WINFORMATION - PANEL DE CONTROL</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
         body { margin: 0; background: #000; color: #D4AF37; font-family: 'Orbitron', sans-serif; overflow: hidden; }
-        
-        /* CONTENEDOR DE LAS 7 PUERTAS */
-        .grid-bunker {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            padding: 50px;
-            height: 100vh;
-            transition: all 1.5s ease-in-out;
-        }
-
-        .puerta {
-            border: 1px solid #D4AF37;
-            background: rgba(212, 175, 55, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 0.8rem;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: 0.5s;
-        }
-
-        .puerta:hover { background: rgba(212, 175, 55, 0.2); box-shadow: 0 0 20px #D4AF37; }
-
-        /* EFECTO DE FOCO EN TITANES */
-        .focus-titanes {
-            transform: scale(1.5);
-            z-index: 100;
-            box-shadow: 0 0 50px #D4AF37;
-            background: #000 !important;
-        }
-
-        /* BURBUJA DE CAMILA EN LA ESQUINA */
-        .camila-bubble {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            border: 2px solid #D4AF37;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            background: #000;
-            box-shadow: 0 0 15px #D4AF37;
-        }
+        .grid-bunker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 50px; height: 100vh; }
+        .puerta { border: 1px solid #D4AF37; background: rgba(212,175,55,0.05); display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.5s; }
+        .focus-titanes { transform: scale(1.2); box-shadow: 0 0 50px #D4AF37; background: #000 !important; z-index:100; }
+        .camila-bubble { position: fixed; top: 20px; right: 20px; width: 60px; height: 60px; border: 2px solid #D4AF37; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; background: #000; }
     </style>
 </head>
 <body>
@@ -75,30 +28,27 @@
     </div>
 
     <script>
-        // Sincronía de los 3 segundos
+        // CONFIGURACIÓN MAESTRA
+        const TELEGRAM_TOKEN = "8783010149:AAH7xElctjbUCYYMUIoxPcwwNomLz1RMQ9w";
+        
         window.onload = () => {
-            console.log("Panel iniciado. Camila vigilando...");
-            
+            // 1. Efecto de los 3 segundos hacia Titanes
             setTimeout(() => {
-                const titanes = document.getElementById('puerta-titanes');
-                const grid = document.getElementById('bunker-grid');
-                
-                // Efecto visual de "Entrada a los Titanes"
-                titanes.classList.add('focus-titanes');
-                
-                setTimeout(() => {
-                    // Aquí es donde entraría a la sección de los cursos e historias
-                    alert("ACCEDIENDO A TITAN PROTOCOLS: El conocimiento de los imperios.");
-                    // window.location.href = 'titanes.html'; 
-                }, 1500);
-            }, 3000); // LOS 3 SEGUNDOS QUE PEDISTE
+                document.getElementById('puerta-titanes').classList.add('focus-titanes');
+                console.log("Winformation: Accediendo a protocolos de Titanes...");
+            }, 3000);
+
+            // 2. Función para enviarte un mensaje de prueba
+            // Nota: Para que funcione, primero tienes que decirme tu Chat ID.
         };
 
-        // CONECTOR DE TELEGRAM (RELOJ MAESTRO)
-        async function enviarAlertaTelegram(mensaje) {
-            const botToken = "TU_BOT_TOKEN"; // Aquí va tu token de Telegram
-            const chatId = "TU_CHAT_ID";
-            await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${mensaje}`);
+        async function enviarPruebaTelegram(chatId, mensaje) {
+            const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+            await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: mensaje })
+            });
         }
     </script>
 </body>
