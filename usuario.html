@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -47,21 +46,30 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DE TU BÚNKER (FIREBASE)
-        const firebaseConfig = {
-            databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com/"
-        };
+        const firebaseConfig = { databaseURL: "https://winformation-ia-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Generar una Huella Digital falsa para el estilo
         document.getElementById('regFinger').value = "WF-" + Math.random().toString(36).substr(2, 9).toUpperCase();
 
-        // Sincronía con tu tiempo en Brasil
         setInterval(() => {
             const hora = new Date().toLocaleTimeString("pt-BR");
             document.getElementById('reloj-brasil').innerText = hora + " (BRASIL)";
         }, 1000);
+
+        // FUNCIÓN PARA QUE CAMILA HABLE
+        async function camilaHabla(mensaje) {
+            try {
+                const response = await fetch('https://winformation-ia-production.up.railway.app/api/camila/hablar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ texto: mensaje })
+                });
+                const blob = await response.blob();
+                const audio = new Audio(URL.createObjectURL(blob));
+                audio.play();
+            } catch (e) { console.error("Error de voz:", e); }
+        }
 
         function guardarEnBunker() {
             const nombre = document.getElementById('regName').value;
@@ -70,22 +78,26 @@
 
             if(!nombre || !email) {
                 status.innerText = "DATOS INCOMPLETOS, CAZADOR.";
+                camilaHabla("Datos incompletos, cazador. Por favor, completa el registro.");
                 return;
             }
 
             status.innerText = "CONECTANDO CON EL BÚNKER...";
 
-            // Guardamos en Firebase para que Camila tenga memoria real
             db.ref('Usuarios/' + nombre).set({
                 email: email,
                 fingerprint: document.getElementById('regFinger').value,
                 ultimoAcceso: new Date().toLocaleString("pt-BR")
             }).then(() => {
-                status.innerText = "CONTRATO SELLADO. VOLVIENDO AL PANEL...";
-                setTimeout(() => { window.location.href = 'panel.html'; }, 2000);
+                status.innerText = "CONTRATO SELLADO. BIENVENIDO.";
+                
+                // CAMILA DA LA BIENVENIDA CON VOZ REAL
+                camilaHabla("Bienvenido al búnker de operaciones, " + nombre + ". Contrato sellado. El mercado nos espera.");
+
+                setTimeout(() => { window.location.href = 'panel.html'; }, 5000);
             }).catch(err => {
                 status.innerText = "ERROR EN EL ENCRIPTADO.";
-                console.error(err);
+                camilaHabla("Error en el sistema. Inténtalo de nuevo.");
             });
         }
     </script>
