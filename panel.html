@@ -1,60 +1,64 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, orientation=landscape">
-    <title>WINFORMATION - PANEL DE CONTROL</title>
+    <title>WINFORCE - PANEL</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; background: #000; color: #D4AF37; font-family: 'Orbitron', sans-serif; overflow: hidden; }
-        .grid-bunker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 50px; height: 100vh; }
-        .puerta { border: 1px solid #D4AF37; background: rgba(212,175,55,0.05); display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.5s; font-size: 12px; font-weight: 900; }
-        .focus-titanes { transform: scale(1.1); box-shadow: 0 0 50px #D4AF37; background: #000 !important; z-index:100; border: 2px solid gold; }
-        .camila-bubble { position: fixed; top: 20px; right: 20px; width: 60px; height: 60px; border: 2px solid #D4AF37; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; background: #000; }
+        :root { --gold: #D4AF37; --bg: #000; }
+        body { background: var(--bg); color: var(--gold); font-family: 'Orbitron', sans-serif; margin: 0; padding: 20px; overflow-x: auto; }
+        
+        .grid-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 80vh;
+            padding: 20px;
+        }
+
+        .puerta {
+            border: 2px solid var(--gold);
+            width: 220px; /* Ancho suficiente para que la letra no se doble */
+            height: 350px; /* Altura de la puerta vertical */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(212, 175, 55, 0.05);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .puerta:hover { background: rgba(212, 175, 55, 0.2); box-shadow: 0 0 30px var(--gold); }
+
+        .puerta span {
+            font-size: 0.9rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            width: 90%; /* Forzamos que el texto use el ancho de la puerta */
+        }
+
+        .ai-indicator {
+            position: absolute; top: 10px; right: 10px;
+            border: 1px solid var(--gold); border-radius: 50%;
+            width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem;
+        }
     </style>
 </head>
 <body>
-
-    <div class="camila-bubble">A I</div>
-
-    <div class="grid-bunker">
-        <div class="puerta" onclick="window.location.href='https://winformation-ia-production.up.railway.app'">THE LINK (RAILWAY)</div>
-        <div class="puerta" id="puerta-titanes">TITAN PROTOCOLS</div>
-        <div class="puerta" onclick="probarTelegram()">TEST BOT</div>
-        <div class="puerta">ALPHA RADAR</div>
-        <div class="puerta">THE VAULT</div>
-        <div class="puerta">QUANTUM SIGMA 7</div>
-        <div class="puerta">NEURAL SETTINGS</div>
-        <div class="puerta">SUPPORT HUB</div>
+    <div class="grid-container">
+        <div class="puerta"><span>THE LINK (RAILWAY)</span></div>
+        <div class="puerta" style="border-width: 4px; box-shadow: 0 0 40px var(--gold);">
+            <div class="ai-indicator">AI</div>
+            <span>TITAN PROTOCOLS</span>
+        </div>
+        <div class="puerta"><span>TEST BOT</span></div>
+        <div class="puerta"><span>ALPHA RADAR</span></div>
     </div>
-
-    <script>
-        // CONFIGURACIÓN MAESTRA WINFORMATION IA
-        const TELEGRAM_TOKEN = "8783010149:AAH7xElctjbUCYYMUIoxPcwwNomLz1RMQ9w";
-        const CHAT_ID = "7904878094";
-        
-        window.onload = () => {
-            // Efecto de encendido del búnker
-            setTimeout(() => {
-                document.getElementById('puerta-titanes').classList.add('focus-titanes');
-                alertaWinformation("🎯 WINFORMATION IA: Sistema en línea. Conexión Railway establecida. ¡Plomo al hampa!");
-            }, 3000);
-        };
-
-        async function alertaWinformation(mensaje) {
-            const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
-            try {
-                await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: mensaje })
-                });
-            } catch (e) { console.error("Error de conexión"); }
-        }
-
-        function probarTelegram() {
-            alertaWinformation("🔔 TEST: Señal confirmada desde el Panel de Control de Greco.");
-        }
-    </script>
 </body>
 </html>
