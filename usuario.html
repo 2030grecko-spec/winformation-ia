@@ -57,7 +57,7 @@
             document.getElementById('reloj-brasil').innerText = hora + " (BRASIL)";
         }, 1000);
 
-        // FUNCIÓN PARA QUE CAMILA HABLE
+        // MOTOR DE VOZ CONECTADO A TU RAILWAY
         async function camilaHabla(mensaje) {
             try {
                 const response = await fetch('https://winformation-ia-production.up.railway.app/api/camila/hablar', {
@@ -67,7 +67,7 @@
                 });
                 const blob = await response.blob();
                 const audio = new Audio(URL.createObjectURL(blob));
-                audio.play();
+                await audio.play();
             } catch (e) { console.error("Error de voz:", e); }
         }
 
@@ -91,10 +91,10 @@
             }).then(() => {
                 status.innerText = "CONTRATO SELLADO. BIENVENIDO.";
                 
-                // CAMILA DA LA BIENVENIDA CON VOZ REAL
+                // DISPARO DE VOZ DE CAMILA
                 camilaHabla("Bienvenido al búnker de operaciones, " + nombre + ". Contrato sellado. El mercado nos espera.");
 
-                setTimeout(() => { window.location.href = 'panel.html'; }, 5000);
+                setTimeout(() => { window.location.href = 'panel.html'; }, 6000);
             }).catch(err => {
                 status.innerText = "ERROR EN EL ENCRIPTADO.";
                 camilaHabla("Error en el sistema. Inténtalo de nuevo.");
